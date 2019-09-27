@@ -7,7 +7,7 @@ const CartVisualizer = () => {
       <h1>Carts</h1>
       <div>
         {data.map((cart, index) => 
-        <div>
+        <div key={index}>
           <h3>Cart: {index}</h3>
           <p>{cart.driver.firstName} {cart.driver.lastName}</p>
         </div>
@@ -18,5 +18,3 @@ const CartVisualizer = () => {
 }
 
 export default CartVisualizer;
-
-
