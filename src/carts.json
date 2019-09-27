@@ -1,0 +1,54 @@
+[
+  { 
+    "load": { 
+      "oaxaquenio": 0, 
+      "rojo": 0, 
+      "type":"tamal" , 
+      "dulce": 0, 
+      "verde": 0 
+    },
+    "driver": { 
+      "firstName": "John", 
+      "lastName": "Smith" 
+    },
+    "schedule": { 
+      "endTime": 1569387600,
+      "startTime": 1569387600,
+       "weekAvailability": { 
+         "sunday": true,
+          "wednesday": false,
+          "saturday": true,
+          "thursday": false,
+          "friday": true,
+          "monday": true,
+          "tuesday": true 
+      }
+    }
+  },
+  { 
+    "load": { 
+      "oaxaquenio": 3, 
+      "rojo": 6, 
+      "type":"tamal" , 
+      "dulce": 10, 
+      "verde": 12 
+    },
+    "driver": { 
+      "firstName": "Juan", 
+      "lastName": "Lopez" 
+    },
+    "schedule": { 
+      "endTime": 1569387600,
+      "startTime": 1569387600,
+       "weekAvailability": { 
+         "sunday": true,
+          "wednesday": true,
+          "saturday": true,
+          "thursday": true,
+          "friday": true,
+          "monday": true,
+          "tuesday": true 
+      }
+    }
+  }
+]

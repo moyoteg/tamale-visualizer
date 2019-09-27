@@ -1,0 +1,14 @@
+[
+  {
+    "thing":1,
+    "test": { 
+      "more": "hello" 
+    }
+  },
+   {
+     "thing":2,
+      "test": { 
+        "more": "hello 2" 
+      }
+   }
+]
