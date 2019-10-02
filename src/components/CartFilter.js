@@ -9,8 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
-    paddingLeft: 24
+    margin: theme.spacing(3),
   },
 }));
 
@@ -20,7 +19,9 @@ const CartFilter = ({ handleFilterChange, filterBy }) => {
   return (
     <div>
       <FormControl component="filter-fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Filter Cart by:</FormLabel>
+        <FormLabel component="legend">
+          Filter Carts by:
+          </FormLabel>
         <RadioGroup aria-label="filter-by" name="filter" value={filterBy} onChange={handleFilterChange}>
           <FormControlLabel value="all" control={<Radio />} label="all" />
           <FormControlLabel value="first name" control={<Radio />} label="first name" />

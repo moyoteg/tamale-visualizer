@@ -67,14 +67,15 @@ const CartList = () => {
     }
 
     const cartsToDisplay = () => {
-        return (shouldFilter()? filteredCarts:carts)
+        return (shouldFilter() ? filteredCarts : carts)
     }
 
     const showFilteredCount = () => {
         if (shouldFilter()) {
             return (
                 <div
-                    style={{ padding: 24 }}>
+                    style={{ padding: 8 }}
+                >
                     filtered carts count: {filteredCarts.length}
                 </div>
             )
@@ -82,25 +83,27 @@ const CartList = () => {
     }
 
     return (
-        <div>
+        <div
+            style={{ padding: 24 }}
+        >
             <CartFilter
-                style={{ padding: 24 }}
-                margin="normal"
                 handleFilterChange={handleFilterChange}
                 filterBy={filterBy}
             />
-            <div style={{ padding: 24 }}>total carts count: {carts.length}</div>
+            <div
+                style={{ padding: 8 }}
+            >carts count: {carts.length}</div>
             {showFilteredCount()}
             <TextField
-                style={{ padding: 24 }}
                 id="searchInput"
                 placeholder="Search for Carts"
                 onChange={onSearchInputChange}
+                margin="normal"
             />
             <div>
                 {cartsToDisplay().length > 0 ? (
                     <div>
-                        <Grid container spacing={4} style={{ padding: 24 }}>
+                        <Grid container spacing={4}>
                             {cartsToDisplay().map((currentCart, index) => (
                                 <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
                                     <CartVisualizer cart={currentCart} ></CartVisualizer>
