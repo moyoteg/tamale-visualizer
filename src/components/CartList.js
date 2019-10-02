@@ -74,7 +74,6 @@ const CartList = () => {
         if (shouldFilter()) {
             return (
                 <div
-                    style={{ padding: 8 }}
                 >
                     filtered carts count: {filteredCarts.length}
                 </div>
@@ -91,7 +90,6 @@ const CartList = () => {
                 filterBy={filterBy}
             />
             <div
-                style={{ padding: 8 }}
             >carts count: {carts.length}</div>
             {showFilteredCount()}
             <TextField
