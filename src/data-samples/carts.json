@@ -1,5 +1,6 @@
 [
   { 
+    "url": "",
     "load": { 
       "oaxaquenio": 0, 
       "rojo": 0, 
@@ -26,6 +27,7 @@
     }
   },
   { 
+    "url": "",
     "load": { 
       "oaxaquenio": 3, 
       "rojo": 6, 

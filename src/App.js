@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import JSONVisualizer from './views/JSONVisualizer'
-import CartVisualizer from './views/CartVisualizer'
-import MenuCtaButton from  './views/MenuCtaButton'
+import CartVisualizer from './components/CartVisualizer';
+import MenuCtaButton from  './views/MenuCtaButton';
+import NavBar from './components/Navbar';
+import CartList from './components/CartList';
 
 const App = () => {
   
   const handleOnClick = () => {
-    alert('clicked')
+    alert('refresh')
+    console.log('')
   }
-  
+
   return (
       <div>
-        <MenuCtaButton onClick={handleOnClick}/>
+        <NavBar></NavBar>
+        <MenuCtaButton onClick={handleOnClick} centered={true} buttonWidth={250}/>
+        <CartList></CartList>
         <CartVisualizer/>
       </div>
     );
 }
 
 export default App;
-
