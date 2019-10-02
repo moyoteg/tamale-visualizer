@@ -8,23 +8,22 @@ import sampleCartData from '../data-samples/carts.json'
 
 const CartList = () => {
 
-    const [carts, setCarts] = useState(sampleCartData);
+    const [carts, setCarts] = useState([]);
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [searchString, setSearchString] = useState('');
-    const [filterBy, setFilterBy] = useState('no filter');
+    const [filterBy, setFilterBy] = useState('all');
 
     useEffect(() => {
-        getCarts(searchString)
+        setCarts(sampleCartData)
     }, [])
 
-    const getCarts = (searchString) => {
+    const updateFilteredCarts = (searchString) => {
         // filter carts?
         if (shouldFilter()) {
-            setFilteredCarts(this.state.carts.filter(cart => {
-                return filter(cart, searchString)
+            setFilteredCarts(carts.filter(cart => {
+                return filterCartsBy(cart, searchString)
             }))
         } else {
-            debugger
             setFilteredCarts([])
         }
     }
@@ -33,22 +32,20 @@ const CartList = () => {
         return searchString && searchString.length > 0
     }
 
-    const filter = (cart, searchString) => {
+    const filterCartsBy = (cart, searchString) => {
         // filter by:...
-        var condition = false
-        debugger
         switch (filterBy) {
             default:
-                condition = false
+                return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
+                    cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
                 break
-            case "First Name":
-                condition = cart.driver.firstName.includes(searchString)
+            case "first name":
+                return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase())
                 break
-            case "Last Name":
-                condition = cart.driver.lastName.includes(searchString)
+            case "last name":
+                return cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
                 break
         }
-        return condition
     }
 
     const onSearchInputChange = (event) => {
@@ -57,43 +54,48 @@ const CartList = () => {
         } else {
             setSearchString('')
         }
-        getCarts(event.target.value)
+        updateFilteredCarts(event.target.value)
+        // getCarts(event.target.value)
     }
 
-    const onFilterChange = (event) => {
-        debugger
+    const handleFilterChange = (event) => {
         if (event.target.value) {
             setFilterBy(event.target.value)
         } else {
-            setFilterBy('First Name')
+            setFilterBy('all')
         }
     }
 
     const cartsToDisplay = () => {
-        return (shouldFilter()?carts:filteredCarts)
-        // let cartsToDisplay = []
-        // if (shouldFilter()) {
-        //     debugger
-        //     return filteredCarts
-        // } else {
-        //     debugger
-        //     return carts
-        // }
+        return (shouldFilter()? filteredCarts:carts)
+    }
+
+    const showFilteredCount = () => {
+        if (shouldFilter()) {
+            return (
+                <div
+                    style={{ padding: 24 }}>
+                    filtered carts count: {filteredCarts.length}
+                </div>
+            )
+        }
     }
 
     return (
         <div>
+            <CartFilter
+                style={{ padding: 24 }}
+                margin="normal"
+                handleFilterChange={handleFilterChange}
+                filterBy={filterBy}
+            />
+            <div style={{ padding: 24 }}>total carts count: {carts.length}</div>
+            {showFilteredCount()}
             <TextField
                 style={{ padding: 24 }}
                 id="searchInput"
                 placeholder="Search for Carts"
-                margin="normal"
                 onChange={onSearchInputChange}
-            />
-            <CartFilter
-                style={{ padding: 24 }}
-                margin="normal"
-                onChange={onFilterChange}
             />
             <div>
                 {cartsToDisplay().length > 0 ? (
@@ -106,10 +108,10 @@ const CartList = () => {
                             ))}
                         </Grid>
                     </div>
-                ) : 
-                <div 
-                style={{ padding: 24}}>
-                    No carts found. carts count {carts.length}
+                ) :
+                    <div
+                        style={{ padding: 24 }}>
+                        No carts found.
                 </div>}
             </div>
         </div>

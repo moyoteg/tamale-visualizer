@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -9,29 +9,26 @@ import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    // margin: theme.spacing(1),
+    margin: theme.spacing(1),
     paddingLeft: 24
   },
 }));
 
-export default function CartFilter() {
+const CartFilter = ({ handleFilterChange, filterBy }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState('no filter');
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
 
   return (
     <div>
-      <FormControl component="fieldset" className={classes.formControl}>
+      <FormControl component="filter-fieldset" className={classes.formControl}>
         <FormLabel component="legend">Filter Cart by:</FormLabel>
-        <RadioGroup aria-label="filter-by" name="filter" value={value} onChange={handleChange}>
-          <FormControlLabel value="no filter" control={<Radio />} label="no filter" />
-          <FormControlLabel value="First Name" control={<Radio />} label="First Name" />
-          <FormControlLabel value="Last Name" control={<Radio />} label="Last Name" />
+        <RadioGroup aria-label="filter-by" name="filter" value={filterBy} onChange={handleFilterChange}>
+          <FormControlLabel value="all" control={<Radio />} label="all" />
+          <FormControlLabel value="first name" control={<Radio />} label="first name" />
+          <FormControlLabel value="last name" control={<Radio />} label="last name" />
         </RadioGroup>
       </FormControl>
     </div>
   );
 }
+
+export default CartFilter

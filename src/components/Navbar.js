@@ -12,7 +12,7 @@ export default function NavBar(props) {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="subtitle1" color="inherit">
-                        Sample App and stuff
+                        Carts Viewer
                     </Typography>
                 </Toolbar>
             </AppBar>

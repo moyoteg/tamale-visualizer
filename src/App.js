@@ -15,7 +15,7 @@ const App = () => {
   return (
       <div>
         <NavBar></NavBar>
-        <MenuCtaButton onClick={handleOnClick} centered={true} buttonWidth={250}/>
+        {/* <MenuCtaButton onClick={handleOnClick} centered={true} buttonWidth={250}/> */}
         <CartList></CartList>
         <CartVisualizer/>
       </div>
