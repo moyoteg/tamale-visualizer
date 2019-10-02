@@ -4,35 +4,25 @@ import TextField from '@material-ui/core/TextField'
 import CartVisualizer from './CartVisualizer.js'
 import CartFilter from './CartFilter.js'
 
-import data from '../data-samples/carts.json'
+import sampleCartData from '../data-samples/carts.json'
 
 const CartList = () => {
 
-    const [carts, setCarts] = useState([]);
+    const [carts, setCarts] = useState(sampleCartData);
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [searchString, setSearchString] = useState('');
-    const [filterBy, setFilterBy] = useState('none');
+    const [filterBy, setFilterBy] = useState('no filter');
 
     useEffect(() => {
         getCarts(searchString)
     }, [])
 
     const getCarts = (searchString) => {
-        // mock data
-        if (carts.length === 0) {
-            // this.state["carts"] = data
-            // this.state["cartsToDisplay"] = data
-            setCarts(data)
-        }
-
-        // filter carts
-        var filteredCarts = []
+        // filter carts?
         if (shouldFilter()) {
-            filteredCarts = this.state.carts.filter(cart => {
+            setFilteredCarts(this.state.carts.filter(cart => {
                 return filter(cart, searchString)
-            })
-            debugger
-            setFilteredCarts(filteredCarts)
+            }))
         } else {
             debugger
             setFilteredCarts([])
@@ -79,11 +69,16 @@ const CartList = () => {
         }
     }
 
-    let cartsToDisplay = []
-    if (shouldFilter()) {
-        cartsToDisplay = filteredCarts
-    } else {
-        cartsToDisplay = carts
+    const cartsToDisplay = () => {
+        return (shouldFilter()?carts:filteredCarts)
+        // let cartsToDisplay = []
+        // if (shouldFilter()) {
+        //     debugger
+        //     return filteredCarts
+        // } else {
+        //     debugger
+        //     return carts
+        // }
     }
 
     return (
@@ -101,21 +96,24 @@ const CartList = () => {
                 onChange={onFilterChange}
             />
             <div>
-                {cartsToDisplay > 0 ? (
+                {cartsToDisplay().length > 0 ? (
                     <div>
                         <Grid container spacing={4} style={{ padding: 24 }}>
-                            {cartsToDisplay.map((currentCart, index) => (
+                            {cartsToDisplay().map((currentCart, index) => (
                                 <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
                                     <CartVisualizer cart={currentCart} ></CartVisualizer>
                                 </Grid>
                             ))}
                         </Grid>
                     </div>
-                ) : 'No carts found'}
+                ) : 
+                <div 
+                style={{ padding: 24}}>
+                    No carts found. carts count {carts.length}
+                </div>}
             </div>
         </div>
     )
 }
-
 
 export default CartList;

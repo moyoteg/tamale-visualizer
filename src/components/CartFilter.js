@@ -10,14 +10,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 const useStyles = makeStyles(theme => ({
   formControl: {
     // margin: theme.spacing(1),
-    margin: 'dense',
     paddingLeft: 24
   },
 }));
 
 export default function CartFilter() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('First Name');
+  const [value, setValue] = React.useState('no filter');
 
   const handleChange = event => {
     setValue(event.target.value);
@@ -28,6 +27,7 @@ export default function CartFilter() {
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">Filter Cart by:</FormLabel>
         <RadioGroup aria-label="filter-by" name="filter" value={value} onChange={handleChange}>
+          <FormControlLabel value="no filter" control={<Radio />} label="no filter" />
           <FormControlLabel value="First Name" control={<Radio />} label="First Name" />
           <FormControlLabel value="Last Name" control={<Radio />} label="Last Name" />
         </RadioGroup>
