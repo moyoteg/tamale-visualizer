@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
             display: 'block',
         },
     },
+    dropDown:{
+
+    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -81,7 +84,7 @@ export default function SearchAppBar() {
                     <Typography className={classes.title} variant="h6" noWrap>
                         Carts Viewer
                     </Typography>
-                    <FilterSelecDropDown
+                    <FilterSelecDropDown className={classes.dropDown}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
