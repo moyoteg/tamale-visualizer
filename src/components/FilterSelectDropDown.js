@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import MenuItem from '@material-ui/core/MenuItem';
+import LocalizedStrings from '../LocalizationStrings';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,43 +22,26 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function FilterSelectDropDown() {
+export default function FilterSelectDropDown({ handleFilterChange, filterBy }) {
     const classes = useStyles();
-
-    const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-    const [filterBy, setFilterBy] = React.useState(["all"])
-
-    React.useEffect(() => {
-    }, []);
-
-    const handleChange = name => event => {
-        switch (name) {
-            case "filter by":
-                setFilterBy(event.target.value)
-                break
-            default:
-                break
-        }
-    };
 
     return (
         <form className={classes.root} autoComplete="off">
             <div className={classes.root}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="filter-by-simple">Filter by</InputLabel>
+                    <InputLabel htmlFor="filter-by-simple">{LocalizedStrings.filterBy}</InputLabel>
                     <Select
                         // native
                         value={filterBy}
-                        onChange={handleChange('filter by')}
+                        onChange={handleFilterChange}
                         inputProps={{
                             name: 'filter by',
                             id: 'filter-by-simple',
                         }}
                     >
                         <MenuItem value="all">-</MenuItem>
-                        <MenuItem value={"first name"}>First Name</MenuItem>
-                        <MenuItem value={"last name"}>Last Name</MenuItem>
+                        <MenuItem value={"first name"}>{LocalizedStrings.firstName}</MenuItem>
+                        <MenuItem value={"last name"}>{LocalizedStrings.lastName}</MenuItem>
                     </Select>
                 </FormControl>
             </div>

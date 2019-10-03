@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core/styles';
+import LocalizedStrings from '../LocalizationStrings';
 
 // import Image from 'material-ui-image'
 
@@ -73,8 +74,8 @@ export default function CartVisualizer(props) {
           </CardContent>
           <CardActions>
             <Button size="small" color="primary" href={cart.url} target="_blank">
-              Go To Cart link 🔗
-                  </Button>
+              {LocalizedStrings.viewCart} 🔗
+            </Button>
           </CardActions>
         </Card>
       ) : null}

@@ -8,7 +8,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterSelec from './FilterSelectPopUp';
-import FilterSelecDropDown from './FilterSelectDropDown';
+import LocalizedStrings from '../LocalizationStrings';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -82,20 +82,14 @@ export default function SearchAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Carts Viewer
+                        {LocalizedStrings.cart}s
                     </Typography>
-                    <FilterSelecDropDown className={classes.dropDown}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                        />
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder={`${LocalizedStrings.search}...`}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
