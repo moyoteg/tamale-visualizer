@@ -73,7 +73,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CartList = () => {
+export default function CartList() {
 
     const classes = useStyles();
 
@@ -229,5 +229,3 @@ const CartList = () => {
         </div>
     )
 }
-
-export default CartList;
