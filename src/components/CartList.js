@@ -10,6 +10,9 @@ import LocalizedStrings from '../LocalizationStrings';
 import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
+// import Icon from '@material-ui/core/Icon';
+import FilterListIcon from '@material-ui/icons/FilterList'
+import Paper from '@material-ui/core/Paper';
 
 import sampleCartData from '../data-samples/carts.json'
 
@@ -79,18 +82,29 @@ const CartList = () => {
     const [filterBy, setFilterBy] = useState('no filter');
     const [showProgress, setShowProgress] = useState(false);
 
+    const useMockData = true
+
     useEffect(() => {
         setShowProgress(true)
+        if (useMockData) {
+            loadMockData()
+        } else {
+            let carts = FirebaseDataProvider.getCarts()
+                .then((carts) => {
+                    setCarts(carts)
+                    setShowProgress(false)
+                    console.log(carts)
+                })
+        }
+    }, [])
+
+    function loadMockData() {
+        // from local json
         // setCarts(sampleCartData)
+        // from Faker.js
         setCarts(FakerDataProvider.getCarts())
         setShowProgress(false)
-        // let carts = FirebaseDataProvider.getCarts()
-        //     .then((carts) => {
-        //         setCarts(carts)
-        //         setShowProgress(false)
-        //         console.log(carts)
-        //     })
-    }, [])
+    }
 
     const updateFilteredCarts = (searchString) => {
         // filter carts?
@@ -145,46 +159,51 @@ const CartList = () => {
     const showFilteredCount = () => {
         if (shouldFilter()) {
             return (
-                <Typography variant="p" gutterBottom>
-                    {`(${LocalizedStrings.filtered}s: ${filteredCarts.length})`}
-                </Typography>
+                <Paper style={{ padding: 4, margin: 4, border: 4 }}>
+                    <Typography variant="p"
+                        style={{ padding: 4, margin: 4, border: 4 }}
+                    >
+                        {`(${LocalizedStrings.filtered}: ${filteredCarts.length})`}
+                    </Typography>
+                </Paper>
             )
         }
     }
 
     return (
         <div>
-            { showProgress && <LinearIndeterminateProgress /> }
-            <div className={classes.root} style={{ padding: 24 }}>
-                <Grid
-                    container spacing={3}
-                    flexItem={{ padding: '0px' }}
-                    alignItems='baseline'
-                    justifyContent='spaceBetween'
-                >
-                    <FilterSelecDropDown
-                        className={classes.dropDown}
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        handleFilterChange={handleFilterChange}
-                        filterBy={filterBy}
-                    />
-                    :
-                    <TextField
-                        id="searchInput"
-                        placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                        onChange={onSearchInputChange}
-                        flexGrow={1}
-                        width='300px'
-                    />
-                    <Typography variant="p">
-                        {`(${LocalizedStrings.cart}s: ${carts.length})`}
-                    </Typography>
-                    {showFilteredCount()}
-                </Grid>
-                <br />
+            {showProgress && <LinearIndeterminateProgress />}
+            <div className={classes.root} style={{ padding: 8, margin: 12, border: 2 }}>
+                <div>
+                    <Paper style={{ padding: 16, margin: 4, border: 8 }}>
+                        <Grid
+                            container spacing={3}
+                            alignItems='baseline'
+                        >
+                            <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }}/>
+                            <FilterSelecDropDown style={{ padding: 4, margin: 4, border: 4 }}
+                                className={classes.dropDown}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                handleFilterChange={handleFilterChange}
+                                filterBy={filterBy}
+                            />
+                            <TextField style={{ padding: 4, margin: 4, border: 4 }}
+                                id="searchInput"
+                                placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
+                                onChange={onSearchInputChange}
+                            />:
+                            <Paper style={{ padding: 4, margin: 4, border: 4 }}>
+                                <Typography variant="p">
+                                    {`(${LocalizedStrings.cart}s: ${carts.length})`}
+                                </Typography>
+                            </Paper>
+                            {showFilteredCount()}
+                        </Grid>
+                    </Paper>
+                </div>
                 <div style={{ padding: 24 }} >
                     {cartsToDisplay().length > 0 ? (
                         <div>

@@ -15,6 +15,7 @@ function getCarts() {
                 "dulce": 0,
                 "verde": 0
             },
+            "description": faker.lorem.sentence(),
             "driver": {
                 "firstName": faker.name.firstName(),
                 "lastName": faker.name.lastName(),

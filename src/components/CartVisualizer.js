@@ -56,8 +56,8 @@ export default function CartVisualizer(props) {
               // borderBottom: 1
             }}
             // className={classes.media}
-            image={cart.driver.profilePictureURL?cart.driver.profilePictureURL:CartLogo}
-            title={cart.driver.firstName ? cart.driver.firstName: LocalizedStrings.noFirstName }
+            image={cart.driver.profilePictureURL ? cart.driver.profilePictureURL : CartLogo}
+            title={cart.driver.firstName ? cart.driver.firstName : LocalizedStrings.noFirstName}
           >
             {/* <Image src={CartLogo}/> */}
             {/* <Grid container justify="center" alignItems="center">
@@ -65,11 +65,12 @@ export default function CartVisualizer(props) {
             </Grid> */}
           </CardMedia>
           <CardContent>
-            <Typography component="h3">
-              {cart.driver.firstName ? cart.driver.firstName: LocalizedStrings.noFirstName}
+            <Typography variant="h5">
+              {}
+              {cart.driver.firstName ? cart.driver.firstName : LocalizedStrings.noFirstName} {cart.driver.lastName ? cart.driver.lastName : LocalizedStrings.noLastName}
             </Typography>
-            <Typography component="p">
-              {cart.driver.lastName ? cart.driver.lastName: LocalizedStrings.noLastName}
+            <Typography variant="p">
+              {cart.description ? cart.description : null}
             </Typography>
           </CardContent>
           <CardActions>
