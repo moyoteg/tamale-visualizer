@@ -11,7 +11,9 @@ const strings = new LocalizedStrings({
         count: "count",
         noCartsFound: "no carts found",
         found: "found",
-        viewCart: "view cart"
+        viewCart: "view cart",
+        noFirstName: "No first name",
+        noLastName: "No last name",
     },
     es: {
         cart: "carro",
@@ -23,7 +25,9 @@ const strings = new LocalizedStrings({
         count: "cuenta",
         noCartsFound: `ningun carro encontrado`,
         found: "encontrado",
-        viewCart: "ver carro"
+        viewCart: "ver carro",
+        noFirstName: "sin nombre",
+        noLastName: "sin apellido"
     }
 })
 

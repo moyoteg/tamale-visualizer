@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.4.3",
     "@material-ui/icons": "^4.4.3",
-    "contentful": "^7.10.0",
+    "firebase": "^7.0.0",
     "material-ui-image": "^3.2.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

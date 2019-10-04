@@ -1,12 +1,14 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
 import CartVisualizer from './CartVisualizer.js'
-import CartFilter from './CartFilter.js'
+// import CartFilter from './CartFilter.js'
 import FilterSelecDropDown from './FilterSelectDropDown';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LocalizedStrings from '../LocalizationStrings';
+import FirebaseDataProvider from '../Helpers/FirebaseDataProvider'
+import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 
 import sampleCartData from '../data-samples/carts.json'
 
@@ -77,6 +79,11 @@ const CartList = () => {
 
     useEffect(() => {
         setCarts(sampleCartData)
+        // let carts = FirebaseDataProvider.getCarts()
+        //     .then((carts) => {
+        //         setCarts(carts)
+        //         console.log(carts)
+        //     })
     }, [])
 
     const updateFilteredCarts = (searchString) => {
@@ -100,13 +107,10 @@ const CartList = () => {
             default:
                 return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
                     cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
-                break
             case "first name":
                 return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase())
-                break
             case "last name":
                 return cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
-                break
         }
     }
 
@@ -143,50 +147,51 @@ const CartList = () => {
     }
 
     return (
-        <div
-            style={{ padding: 24 }}
-        >
-            <Grid container spacing={4}
-                style={{ padding: 24 }}
-            >
-                <TextField
-                    id="searchInput"
-                    placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                    onChange={onSearchInputChange}
-                    margin="normal"
-                />
-                <FilterSelecDropDown
-                    className={classes.dropDown}
-                    classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                    }}
-                    handleFilterChange={handleFilterChange}
-                    filterBy={filterBy}
-                />
-                <Grid>
+        <div>
+            <LinearIndeterminateProgress
+                style={{ padding: 0 }
+                } />
+                <br/>
+            <div>
+                <Grid container spacing={4}
+                    style={{ border: 24 }}
+                >
+                    <TextField
+                        id="searchInput"
+                        placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
+                        onChange={onSearchInputChange}
+                    />
+                    <FilterSelecDropDown
+                        className={classes.dropDown}
+                        classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                        }}
+                        handleFilterChange={handleFilterChange}
+                        filterBy={filterBy}
+                    />
                     <Typography variant="h4" gutterBottom>
                         {`${LocalizedStrings.cart}s: ${carts.length}`}
                     </Typography>
                     {showFilteredCount()}
                 </Grid>
-            </Grid>
-            <div>
-                {cartsToDisplay().length > 0 ? (
-                    <div>
-                        <Grid container spacing={4}>
-                            {cartsToDisplay().map((currentCart, index) => (
-                                <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-                                    <CartVisualizer cart={currentCart} ></CartVisualizer>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </div>
-                ) :
-                    <div
-                        style={{ padding: 24 }}>
+                <div style={{ padding: 24 }} >
+                    {cartsToDisplay().length > 0 ? (
+                        <div>
+                            <Grid container spacing={4}>
+                                {cartsToDisplay().map((currentCart, index) => (
+                                    <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
+                                        <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </div>
+                    ) :
+                        <div
+                            style={{ padding: 24 }}>
                             {LocalizedStrings.noCartsFound}.
                 </div>}
+                </div>
             </div>
         </div>
     )

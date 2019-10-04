@@ -1,16 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import CartVisualizer from './components/CartVisualizer';
-import MenuCtaButton from  './views/MenuCtaButton';
 import NavBar from './components/Navbar';
 import CartList from './components/CartList';
 
 const App = () => {
-  
-  const handleOnClick = () => {
-    alert('refresh')
-    console.log('')
-  }
 
   return (
       <div>
