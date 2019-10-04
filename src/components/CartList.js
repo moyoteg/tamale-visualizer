@@ -75,15 +75,18 @@ const CartList = () => {
     const [carts, setCarts] = useState([]);
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [searchString, setSearchString] = useState('');
-    const [filterBy, setFilterBy] = useState('all');
+    const [filterBy, setFilterBy] = useState('no filter');
+    const [showProgress, setShowProgress] = useState(false);
 
     useEffect(() => {
-        setCarts(sampleCartData)
-        // let carts = FirebaseDataProvider.getCarts()
-        //     .then((carts) => {
-        //         setCarts(carts)
-        //         console.log(carts)
-        //     })
+        setShowProgress(true)
+        // setCarts(sampleCartData)
+        let carts = FirebaseDataProvider.getCarts()
+            .then((carts) => {
+                setCarts(carts)
+                setShowProgress(false)
+                console.log(carts)
+            })
     }, [])
 
     const updateFilteredCarts = (searchString) => {
@@ -139,8 +142,8 @@ const CartList = () => {
     const showFilteredCount = () => {
         if (shouldFilter()) {
             return (
-                <Typography variant="h4" gutterBottom>
-                    filtered carts count: {filteredCarts.length}
+                <Typography variant="p" gutterBottom>
+                    {`(${LocalizedStrings.filtered}s: ${filteredCarts.length})`}
                 </Typography>
             )
         }
@@ -148,19 +151,14 @@ const CartList = () => {
 
     return (
         <div>
-            <LinearIndeterminateProgress
-                style={{ padding: 0 }
-                } />
-                <br/>
-            <div>
-                <Grid container spacing={4}
-                    style={{ border: 24 }}
+            { showProgress && <LinearIndeterminateProgress /> }
+            <div className={classes.root} style={{ padding: 24 }}>
+                <Grid
+                    container spacing={3}
+                    flexItem={{ padding: '0px' }}
+                    alignItems='baseline'
+                    justifyContent='spaceBetween'
                 >
-                    <TextField
-                        id="searchInput"
-                        placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                        onChange={onSearchInputChange}
-                    />
                     <FilterSelecDropDown
                         className={classes.dropDown}
                         classes={{
@@ -170,11 +168,20 @@ const CartList = () => {
                         handleFilterChange={handleFilterChange}
                         filterBy={filterBy}
                     />
-                    <Typography variant="h4" gutterBottom>
-                        {`${LocalizedStrings.cart}s: ${carts.length}`}
+                    :
+                    <TextField
+                        id="searchInput"
+                        placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
+                        onChange={onSearchInputChange}
+                        flexGrow={1}
+                        width='300px'
+                    />
+                    <Typography variant="p">
+                        {`(${LocalizedStrings.cart}s: ${carts.length})`}
                     </Typography>
                     {showFilteredCount()}
                 </Grid>
+                <br />
                 <div style={{ padding: 24 }} >
                     {cartsToDisplay().length > 0 ? (
                         <div>

@@ -14,6 +14,8 @@ const strings = new LocalizedStrings({
         viewCart: "view cart",
         noFirstName: "No first name",
         noLastName: "No last name",
+        noFilter: "no filter",
+        filtered: "filtered",
     },
     es: {
         cart: "carro",
@@ -27,10 +29,12 @@ const strings = new LocalizedStrings({
         found: "encontrado",
         viewCart: "ver carro",
         noFirstName: "sin nombre",
-        noLastName: "sin apellido"
+        noLastName: "sin apellido",
+        noFilter: "sin filtro",
+        filtered: "filtrado",
     }
 })
 
-// strings.setLanguage('es')
+strings.setLanguage('es')
 
 export default strings
