@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import CartVisualizer from './CartVisualizer.js'
+import CartVisualizer from './CartVisualizer'
 // import CartFilter from './CartFilter.js'
-import FilterSelecDropDown from './FilterSelectDropDown';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import LocalizedStrings from '../LocalizationStrings';
+import FilterSelecDropDown from './FilterSelectDropDown'
+import { fade, makeStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import LocalizedStrings from '../LocalizationStrings'
 import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 // import Icon from '@material-ui/core/Icon';
-import FilterListIcon from '@material-ui/icons/FilterList'
+// import FilterListIcon from '@material-ui/icons/FilterList'
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
 
 import sampleCartData from '../data-samples/carts.json'
@@ -76,7 +77,7 @@ const CartList = () => {
 
     const classes = useStyles();
 
-    const [carts, setCarts] = useState([]);
+    const [carts, setCarts] = useState(null);
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [searchString, setSearchString] = useState('');
     const [filterBy, setFilterBy] = useState('no filter');
@@ -153,17 +154,29 @@ const CartList = () => {
     }
 
     const cartsToDisplay = () => {
-        return (shouldFilter() ? filteredCarts : carts)
+        return (shouldFilter() && carts ? filteredCarts : carts)
     }
 
-    const showFilteredCount = () => {
+    const showCartsCount = () => {
+        if (carts) {
+            return (
+                <Paper style={{ padding: 4, margin: 4, border: 4 }}>
+                    <Typography variant="p">
+                        {`${LocalizedStrings.cart}s: ${carts.length}`}
+                    </Typography>
+                </Paper>
+            )
+        }
+    }
+
+    const showFilteredCartsCount = () => {
         if (shouldFilter()) {
             return (
                 <Paper style={{ padding: 4, margin: 4, border: 4 }}>
                     <Typography variant="p"
                         style={{ padding: 4, margin: 4, border: 4 }}
                     >
-                        {`(${LocalizedStrings.filtered}: ${filteredCarts.length})`}
+                        {`${LocalizedStrings.filtered}: ${filteredCarts.length}`}
                     </Typography>
                 </Paper>
             )
@@ -176,11 +189,14 @@ const CartList = () => {
             <div className={classes.root} style={{ padding: 8, margin: 12, border: 2 }}>
                 <div>
                     <Paper style={{ padding: 16, margin: 4, border: 8 }}>
-                        <Grid
-                            container spacing={3}
-                            alignItems='baseline'
-                        >
-                            <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }}/>
+                        <Grid container spacing={5} alignItems='baseline'>
+                            <SearchRoundedIcon style={{ padding: 4, margin: 4, border: 4 }} />
+                            <TextField style={{ padding: 4, margin: 4, border: 4 }}
+                                id="searchInput"
+                                placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
+                                onChange={onSearchInputChange}
+                            />
+                            {/* <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }} /> */}
                             <FilterSelecDropDown style={{ padding: 4, margin: 4, border: 4 }}
                                 className={classes.dropDown}
                                 classes={{
@@ -190,22 +206,13 @@ const CartList = () => {
                                 handleFilterChange={handleFilterChange}
                                 filterBy={filterBy}
                             />
-                            <TextField style={{ padding: 4, margin: 4, border: 4 }}
-                                id="searchInput"
-                                placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                                onChange={onSearchInputChange}
-                            />:
-                            <Paper style={{ padding: 4, margin: 4, border: 4 }}>
-                                <Typography variant="p">
-                                    {`(${LocalizedStrings.cart}s: ${carts.length})`}
-                                </Typography>
-                            </Paper>
-                            {showFilteredCount()}
+                            :{showCartsCount()}
+                            :{showFilteredCartsCount()}
                         </Grid>
                     </Paper>
                 </div>
                 <div style={{ padding: 24 }} >
-                    {cartsToDisplay().length > 0 ? (
+                    {cartsToDisplay() && cartsToDisplay().length > 0 ? (
                         <div>
                             <Grid container spacing={4}>
                                 {cartsToDisplay().map((currentCart, index) => (
@@ -215,10 +222,7 @@ const CartList = () => {
                                 ))}
                             </Grid>
                         </div>
-                    ) :
-                        <div
-                            style={{ padding: 24 }}>
-                            {LocalizedStrings.noCartsFound}.
+                    ) :<div style={{ padding: 24 }}>{LocalizedStrings.noCartsFound}.
                 </div>}
                 </div>
             </div>
