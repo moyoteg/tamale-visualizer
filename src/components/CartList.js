@@ -7,8 +7,9 @@ import FilterSelecDropDown from './FilterSelectDropDown';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LocalizedStrings from '../LocalizationStrings';
-import FirebaseDataProvider from '../Helpers/FirebaseDataProvider'
+import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
+import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 
 import sampleCartData from '../data-samples/carts.json'
 
@@ -81,12 +82,14 @@ const CartList = () => {
     useEffect(() => {
         setShowProgress(true)
         // setCarts(sampleCartData)
-        let carts = FirebaseDataProvider.getCarts()
-            .then((carts) => {
-                setCarts(carts)
-                setShowProgress(false)
-                console.log(carts)
-            })
+        setCarts(FakerDataProvider.getCarts())
+        setShowProgress(false)
+        // let carts = FirebaseDataProvider.getCarts()
+        //     .then((carts) => {
+        //         setCarts(carts)
+        //         setShowProgress(false)
+        //         console.log(carts)
+        //     })
     }, [])
 
     const updateFilteredCarts = (searchString) => {

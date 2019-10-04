@@ -56,7 +56,7 @@ export default function CartVisualizer(props) {
               // borderBottom: 1
             }}
             // className={classes.media}
-            image={CartLogo}
+            image={cart.driver.profilePictureURL?cart.driver.profilePictureURL:CartLogo}
             title={cart.driver.firstName ? cart.driver.firstName: LocalizedStrings.noFirstName }
           >
             {/* <Image src={CartLogo}/> */}

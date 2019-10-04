@@ -35,6 +35,6 @@ const strings = new LocalizedStrings({
     }
 })
 
-strings.setLanguage('es')
+// strings.setLanguage('es')
 
 export default strings
