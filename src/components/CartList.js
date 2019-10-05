@@ -175,9 +175,9 @@ export default function CartList() {
     const showCartsCount = () => {
         if (carts) {
             return (
-                <Paper style={{ display: 'inline-block' }}>
+                <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {`${LocalizedStrings.cart}s: ${carts.length}`}
+                        {` ${LocalizedStrings.cart}s: ${carts.length} `}
                     </Typography>
                 </Paper>
             )
@@ -187,9 +187,9 @@ export default function CartList() {
     const showFilteredCartsCount = () => {
         if (filter.filteredCarts) {
             return (
-                <Paper style={{ display: 'inline-block' }}>
+                <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {`${LocalizedStrings.filtered}: ${filter.filteredCarts.length}`}
+                        {` ${LocalizedStrings.filtered}: ${filter.filteredCarts.length} `}
                     </Typography>
                 </Paper>
             )
@@ -201,7 +201,7 @@ export default function CartList() {
             {showProgress && <LinearIndeterminateProgress />}
             <div className={classes.root} >
                 <div>
-                    <Paper style={{ padding: 16, margin: 4, border: 8 }}>
+                    <Paper style={{ padding: 16, margin: 8, border: 8 }}>
                         <Grid container spacing={4}
                             justifyContent='flex-start'
                             alignItems='center'
@@ -235,10 +235,10 @@ export default function CartList() {
                             {/* <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }} /> */}
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
-                            > : {showCartsCount()} </Grid>
+                            >{showCartsCount()} </Grid>
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
-                            > : {showFilteredCartsCount()} </Grid>
+                            >{showFilteredCartsCount()} </Grid>
                         </Grid>
                     </Paper>
                 </div>
