@@ -69,7 +69,7 @@ export default function CartVisualizer(props) {
               {}
               {cart.driver.firstName ? cart.driver.firstName : LocalizedStrings.noFirstName} {cart.driver.lastName ? cart.driver.lastName : LocalizedStrings.noLastName}
             </Typography>
-            <Typography variant="p">
+            <Typography variant="body1">
               {cart.description ? cart.description : null}
             </Typography>
           </CardContent>

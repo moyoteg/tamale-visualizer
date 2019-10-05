@@ -12,10 +12,12 @@ import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 // import Icon from '@material-ui/core/Icon';
 // import FilterListIcon from '@material-ui/icons/FilterList'
+// import { faHome } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
 
-import sampleCartData from '../data-samples/carts.json'
+// import sampleCartData from '../data-samples/carts.json'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -73,24 +75,30 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+var useMockData = true
+
 export default function CartList() {
 
     const classes = useStyles();
 
     const [carts, setCarts] = useState(null);
-    const [filteredCarts, setFilteredCarts] = useState([]);
-    const [searchString, setSearchString] = useState('');
-    const [filterBy, setFilterBy] = useState('no filter');
+    const [filter, setFilter] = useState({
+        filterBy: 'no filter',
+        searchString: null,
+        filteredCarts: null
+    })
+    // const [filteredCarts, setFilteredCarts] = useState(null);
+    // const [searchString, setSearchString] = useState(null);
+    // const [filterBy, setFilterBy] = useState('no filter');
     const [showProgress, setShowProgress] = useState(false);
-
-    const useMockData = true
-
+    
     useEffect(() => {
         setShowProgress(true)
         if (useMockData) {
             loadMockData()
         } else {
-            let carts = FirebaseDataProvider.getCarts()
+            FirebaseDataProvider
+                .getCarts()
                 .then((carts) => {
                     setCarts(carts)
                     setShowProgress(false)
@@ -107,23 +115,39 @@ export default function CartList() {
         setShowProgress(false)
     }
 
-    const updateFilteredCarts = (searchString) => {
+    function updateFilter(
+        searchString = filter.searchString,
+        filterBy = filter.filterBy) {
         // filter carts?
-        if (shouldFilter()) {
-            setFilteredCarts(carts.filter(cart => {
-                return filterCartsBy(cart, searchString)
-            }))
+        if (shouldFilter(searchString)) {
+            console.log("will filter by: " + filterBy)
+            setFilter({
+                filteredCarts: carts.filter(cart => {
+                    let shouldFilter = filterCartsBy(cart, searchString, filterBy)
+                    if (shouldFilter) {
+                        console.log("cart: " + cart)
+                    }
+                    return shouldFilter
+                }),
+                searchString: searchString,
+                filterBy: filterBy
+            })
         } else {
-            setFilteredCarts([])
+            setFilter({
+                filteredCarts: null,
+                searchString: searchString,
+                filterBy: filterBy
+            })
         }
     }
 
-    const shouldFilter = () => {
+    const shouldFilter = (searchString) => {
         return searchString && searchString.length > 0
     }
 
-    const filterCartsBy = (cart, searchString) => {
+    function filterCartsBy(cart, searchString, filterBy) {
         // filter by:...
+        console.log("filter by: " + filterBy)
         switch (filterBy) {
             default:
                 return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -135,33 +159,24 @@ export default function CartList() {
         }
     }
 
-    const onSearchInputChange = (event) => {
-        if (event.target.value) {
-            setSearchString(event.target.value)
-        } else {
-            setSearchString('')
-        }
-        updateFilteredCarts(event.target.value)
-        // getCarts(event.target.value)
+    const handleSearchInputChange = (event) => {
+        updateFilter(event.target.value)
     }
 
     const handleFilterChange = (event) => {
-        if (event.target.value) {
-            setFilterBy(event.target.value)
-        } else {
-            setFilterBy('all')
-        }
+        console.log("changed filter to: " + event.target.value)
+        updateFilter(undefined, event.target.value)
     }
 
     const cartsToDisplay = () => {
-        return (shouldFilter() && carts ? filteredCarts : carts)
+        return (filter.filteredCarts ? filter.filteredCarts : carts)
     }
 
     const showCartsCount = () => {
         if (carts) {
             return (
                 <Paper style={{ padding: 4, margin: 4, border: 4 }}>
-                    <Typography variant="p">
+                    <Typography variant="body1">
                         {`${LocalizedStrings.cart}s: ${carts.length}`}
                     </Typography>
                 </Paper>
@@ -170,13 +185,13 @@ export default function CartList() {
     }
 
     const showFilteredCartsCount = () => {
-        if (shouldFilter()) {
+        if (filter.filteredCarts) {
             return (
                 <Paper style={{ padding: 4, margin: 4, border: 4 }}>
-                    <Typography variant="p"
+                    <Typography variant="body1"
                         style={{ padding: 4, margin: 4, border: 4 }}
                     >
-                        {`${LocalizedStrings.filtered}: ${filteredCarts.length}`}
+                        {`${LocalizedStrings.filtered}: ${filter.filteredCarts.length}`}
                     </Typography>
                 </Paper>
             )
@@ -194,7 +209,7 @@ export default function CartList() {
                             <TextField style={{ padding: 4, margin: 4, border: 4 }}
                                 id="searchInput"
                                 placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                                onChange={onSearchInputChange}
+                                onChange={handleSearchInputChange}
                             />
                             {/* <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }} /> */}
                             <FilterSelecDropDown style={{ padding: 4, margin: 4, border: 4 }}
@@ -204,7 +219,7 @@ export default function CartList() {
                                     input: classes.inputInput,
                                 }}
                                 handleFilterChange={handleFilterChange}
-                                filterBy={filterBy}
+                                filterBy={filter.filterBy}
                             />
                             :{showCartsCount()}
                             :{showFilteredCartsCount()}
@@ -222,7 +237,7 @@ export default function CartList() {
                                 ))}
                             </Grid>
                         </div>
-                    ) :<div style={{ padding: 24 }}>{LocalizedStrings.noCartsFound}.
+                    ) : <div style={{ padding: 24 }}>{LocalizedStrings.noCartsFound}.
                 </div>}
                 </div>
             </div>

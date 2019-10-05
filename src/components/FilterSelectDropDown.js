@@ -39,7 +39,7 @@ export default function FilterSelectDropDown({ handleFilterChange, filterBy }) {
                             id: 'filter-by-simple',
                         }}
                     >
-                        <MenuItem value={"no filter"}>{LocalizedStrings.noFilter}</MenuItem>
+                        <MenuItem value={'no filter'}>{LocalizedStrings.noFilter}</MenuItem>
                         <MenuItem value={"first name"}>{LocalizedStrings.firstName}</MenuItem>
                         <MenuItem value={"last name"}>{LocalizedStrings.lastName}</MenuItem>
                     </Select>
