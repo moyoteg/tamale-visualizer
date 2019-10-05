@@ -91,7 +91,7 @@ export default function CartList() {
     // const [searchString, setSearchString] = useState(null);
     // const [filterBy, setFilterBy] = useState('no filter');
     const [showProgress, setShowProgress] = useState(false);
-    
+
     useEffect(() => {
         setShowProgress(true)
         if (useMockData) {
@@ -175,7 +175,7 @@ export default function CartList() {
     const showCartsCount = () => {
         if (carts) {
             return (
-                <Paper style={{ padding: 4, margin: 4, border: 4 }}>
+                <Paper style={{ display: 'inline-block' }}>
                     <Typography variant="body1">
                         {`${LocalizedStrings.cart}s: ${carts.length}`}
                     </Typography>
@@ -187,10 +187,8 @@ export default function CartList() {
     const showFilteredCartsCount = () => {
         if (filter.filteredCarts) {
             return (
-                <Paper style={{ padding: 4, margin: 4, border: 4 }}>
-                    <Typography variant="body1"
-                        style={{ padding: 4, margin: 4, border: 4 }}
-                    >
+                <Paper style={{ display: 'inline-block' }}>
+                    <Typography variant="body1">
                         {`${LocalizedStrings.filtered}: ${filter.filteredCarts.length}`}
                     </Typography>
                 </Paper>
@@ -201,28 +199,46 @@ export default function CartList() {
     return (
         <div>
             {showProgress && <LinearIndeterminateProgress />}
-            <div className={classes.root} style={{ padding: 8, margin: 12, border: 2 }}>
+            <div className={classes.root} >
                 <div>
                     <Paper style={{ padding: 16, margin: 4, border: 8 }}>
-                        <Grid container spacing={5} alignItems='baseline'>
-                            <SearchRoundedIcon style={{ padding: 4, margin: 4, border: 4 }} />
-                            <TextField style={{ padding: 4, margin: 4, border: 4 }}
-                                id="searchInput"
-                                placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
-                                onChange={handleSearchInputChange}
-                            />
+                        <Grid container spacing={4}
+                            justifyContent='flex-start'
+                            alignItems='center'
+                        >
+                            <Grid item xs={0}
+                            style={{padding: 0, marginTop: 22, paddingLeft: 4}}
+                            >
+                                <SearchRoundedIcon />
+                            </Grid>
+                            <Grid item xs={0}
+                                style={{ padding: 0, marginTop: 16, paddingLeft: 4}}
+                            >
+                                <TextField
+                                    id="searchInput"
+                                    placeholder={`${LocalizedStrings.search} ${LocalizedStrings.cart}s`}
+                                    onChange={handleSearchInputChange}
+                                />
+                            </Grid>
+                            <Grid item xs={0}
+                                style={{ padding: 0, paddingLeft: 0}}>
+                                <FilterSelecDropDown
+                                    className={classes.dropDown}
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    handleFilterChange={handleFilterChange}
+                                    filterBy={filter.filterBy}
+                                />
+                            </Grid>
                             {/* <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }} /> */}
-                            <FilterSelecDropDown style={{ padding: 4, margin: 4, border: 4 }}
-                                className={classes.dropDown}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                handleFilterChange={handleFilterChange}
-                                filterBy={filter.filterBy}
-                            />
-                            :{showCartsCount()}
-                            :{showFilteredCartsCount()}
+                            <Grid item xs={0}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
+                            > : {showCartsCount()} </Grid>
+                            <Grid item xs={0}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
+                            > : {showFilteredCartsCount()} </Grid>
                         </Grid>
                     </Paper>
                 </div>
