@@ -234,10 +234,10 @@ export default function CartList() {
                             </Grid>
                             {/* <FilterListIcon style={{ padding: 4, margin: 4, border: 4 }} /> */}
                             <Grid item xs={0}
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
                             >{showCartsCount()} </Grid>
                             <Grid item xs={0}
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 4 }}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
                             >{showFilteredCartsCount()} </Grid>
                         </Grid>
                     </Paper>
