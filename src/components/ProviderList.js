@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import CartVisualizer from './CartVisualizer'
-// import CartFilter from './CartFilter.js'
+import ProviderVisualizer from './ProviderVisualizer'
+// import ProviderFilter from './ProviderFilter.js'
 import FilterSelecDropDown from './FilterSelectDropDown'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -17,7 +17,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
 
-// import sampleCartData from '../data-samples/carts.json'
+// import sampleProviderData from '../data-samples/providers.json'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -75,28 +75,26 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function CartList() {
+export default function ProviderList() {
 
     const classes = useStyles();
 
     const filterByOptions =
         [LocalizedStrings.noFilter,
-        LocalizedStrings.firstName,
-        LocalizedStrings.lastName
         ]
-        
-    const viewCollectionName = LocalizedStrings.cart
 
-    const [carts, setCarts] = useState(null);
+    const viewCollectionName = LocalizedStrings.provider
+
+    const [providers, setProviders] = useState(null);
     const [filter, setFilter] = useState({
         filterBy: filterByOptions[0],
         searchString: null,
-        filteredCarts: null
+        filteredProviders: null
     })
 
     const [showProgress, setShowProgress] = useState(false);
 
-    var useMockData = true
+    const useMockData = true
 
     useEffect(() => {
         setShowProgress(true)
@@ -104,34 +102,34 @@ export default function CartList() {
             loadMockData()
         } else {
             FirebaseDataProvider
-                .getCarts()
-                .then((carts) => {
-                    setCarts(carts)
+                .getProviders()
+                .then((providers) => {
+                    setProviders(providers)
                     setShowProgress(false)
-                    console.log(carts)
+                    console.log(providers)
                 })
         }
     }, [])
 
     function loadMockData() {
         // from local json
-        // setCarts(sampleCartData)
+        // setProviders(sampleProviderData)
         // from Faker.js
-        setCarts(FakerDataProvider.getCarts(100))
+        setProviders(FakerDataProvider.getProviders(100))
         setShowProgress(false)
     }
 
     function updateFilter(
         searchString = filter.searchString,
         filterBy = filter.filterBy) {
-        // filter carts?
+        // filter providers?
         if (shouldFilter(searchString)) {
             console.log("will filter by: " + filterBy)
             setFilter({
-                filteredCarts: carts.filter(cart => {
-                    let shouldFilter = filterCartsBy(cart, searchString, filterBy)
+                filteredProviders: providers.filter(provider => {
+                    let shouldFilter = filterProvidersBy(provider, searchString, filterBy)
                     if (shouldFilter) {
-                        console.log("cart: " + cart)
+                        console.log("provider: " + provider)
                     }
                     return shouldFilter
                 }),
@@ -140,7 +138,7 @@ export default function CartList() {
             })
         } else {
             setFilter({
-                filteredCarts: null,
+                filteredProviders: null,
                 searchString: searchString,
                 filterBy: filterBy
             })
@@ -151,17 +149,13 @@ export default function CartList() {
         return searchString && searchString.length > 0
     }
 
-    function filterCartsBy(cart, searchString, filterBy) {
+    function filterProvidersBy(provider, searchString, filterBy) {
         // filter by:...
         console.log("filter by: " + filterBy)
         switch (filterBy) {
             default:
-                return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
-                    cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
-            case "first name":
-                return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase())
-            case "last name":
-                return cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
+                return provider.name.toLowerCase().includes(searchString.toLowerCase()) ||
+                    provider.description.toLowerCase().includes(searchString.toLowerCase())
         }
     }
 
@@ -174,28 +168,28 @@ export default function CartList() {
         updateFilter(undefined, event.target.value)
     }
 
-    const cartsToDisplay = () => {
-        return (filter.filteredCarts ? filter.filteredCarts : carts)
+    const providersToDisplay = () => {
+        return (filter.filteredProviders ? filter.filteredProviders : providers)
     }
 
-    const showCartsCount = () => {
-        if (carts) {
+    const showProvidersCount = () => {
+        if (providers) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.cart}s: ${carts.length} `}
+                        {` ${LocalizedStrings.provider}s: ${providers.length} `}
                     </Typography>
                 </Paper>
             )
         }
     }
 
-    const showFilteredCartsCount = () => {
-        if (filter.filteredCarts) {
+    const showFilteredProvidersCount = () => {
+        if (filter.filteredProviders) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.filtered}: ${filter.filteredCarts.length} `}
+                        {` ${LocalizedStrings.filtered}: ${filter.filteredProviders.length} `}
                     </Typography>
                 </Paper>
             )
@@ -215,7 +209,7 @@ export default function CartList() {
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 22, paddingLeft: 4 }}
                             >
-                                <SearchRoundedIcon style={{marginLeft: 16}} />
+                                <SearchRoundedIcon style={{ marginLeft: 16 }} />
                             </Grid>
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 16, paddingLeft: 4 }}
@@ -241,30 +235,29 @@ export default function CartList() {
                                     }}
                                     handleFilterChange={handleFilterChange}
                                     filterByOptions={filterByOptions}
-                                    filterBy={filter.filterBy}
                                 />
                             </Grid>
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
-                            >{showCartsCount()} </Grid>
+                            >{showProvidersCount()} </Grid>
                             <Grid item xs={0}
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
-                            >{showFilteredCartsCount()} </Grid>
+                            >{showFilteredProvidersCount()} </Grid>
                         </Grid>
                     </Paper>
                 </div>
                 <div style={{ margin: 24 }} >
-                    {cartsToDisplay() && cartsToDisplay().length > 0 ? (
+                    {providersToDisplay() && providersToDisplay().length > 0 ? (
                         <div>
                             <Grid container spacing={4}>
-                                {cartsToDisplay().map((currentCart, index) => (
+                                {providersToDisplay().map((currentProvider, index) => (
                                     <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-                                        <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                        <ProviderVisualizer provider={currentProvider} ></ProviderVisualizer>
                                     </Grid>
                                 ))}
                             </Grid>
                         </div>
-                    ) : <div style={{ margin: 24 }}>{LocalizedStrings.noCartsFound}.
+                    ) : <div style={{ margin: 24 }}>{LocalizedStrings.noProvidersFound}.
                 </div>}
                 </div>
             </div>

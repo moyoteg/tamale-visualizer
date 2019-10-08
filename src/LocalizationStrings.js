@@ -16,6 +16,11 @@ const strings = new LocalizedStrings({
         noLastName: "No last name",
         noFilter: "no filter",
         filtered: "filtered",
+        none: "none",
+        noName: "no name",
+        provider: "provider",
+        users: "users",
+        home: "home",
     },
     es: {
         cart: "carro",
@@ -32,6 +37,11 @@ const strings = new LocalizedStrings({
         noLastName: "sin apellido",
         noFilter: "sin filtro",
         filtered: "filtrado",
+        none: "ninguno",
+        noName: "sin nombre",
+        provider: "proveedor",
+        users: "usuarios",
+        home: "home",
     }
 })
 

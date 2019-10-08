@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function FilterSelectDropDown({ handleFilterChange, filterBy }) {
+export default function FilterSelectDropDown({ handleFilterChange, filterByOptions }) {
     const classes = useStyles();
 
     return (
@@ -32,16 +32,16 @@ export default function FilterSelectDropDown({ handleFilterChange, filterBy }) {
                     <InputLabel htmlFor="filter-by-simple">{LocalizedStrings.filterBy}</InputLabel>
                     <Select
                         // native
-                        value={filterBy}
+                        value={filterByOptions}
                         onChange={handleFilterChange}
                         inputProps={{
                             name: 'filter by',
                             id: 'filter-by-simple',
                         }}
                     >
-                        <MenuItem value={'no filter'}>{LocalizedStrings.noFilter}</MenuItem>
-                        <MenuItem value={"first name"}>{LocalizedStrings.firstName}</MenuItem>
-                        <MenuItem value={"last name"}>{LocalizedStrings.lastName}</MenuItem>
+                        {filterByOptions.map((filterOption) => (
+                            <MenuItem key={filterOption} value={filterOption}>{filterOption}</MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             </div>

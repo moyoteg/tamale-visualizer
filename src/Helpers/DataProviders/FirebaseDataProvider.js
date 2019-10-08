@@ -26,4 +26,14 @@ async function getCarts() {
     })
 }
 
-export default { getCarts };
+async function getProviders() {
+    let allProvidersSnapshot = await firebase.firestore().collectionGroup('Providers').get()
+    return allProvidersSnapshot.docs.map((doc) => { 
+        let data = doc.data()
+        // set the id so it can be looked at
+        data["id"] = doc.id
+        return data
+    })
+}
+
+export default { getCarts, getProviders };

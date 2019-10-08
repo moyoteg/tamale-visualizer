@@ -2,10 +2,25 @@ var faker = require('faker');
 
 faker.locale = "en_US";
 
-function getCarts() {
+function getProviders() {
+
+    let sampleProviders = []
+    for (let i = 0; i < 100; i++) {
+        let sample = {
+            "Carts": getCarts(5),
+            "name": faker.company.companyName(),
+            "description": faker.lorem.sentence(),
+            "logoURL": faker.image.abstract()
+        }
+        sampleProviders.push(sample)
+    }
+    return sampleProviders
+}
+
+function getCarts(count) {
 
     let sampleCarts = []
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < count; i++) {
         let sample = {
             "url": "",
             "load": {
@@ -36,9 +51,9 @@ function getCarts() {
                 }
             }
         }
-        sampleCarts.push(sample) 
-      }
-      return sampleCarts
+        sampleCarts.push(sample)
+    }
+    return sampleCarts
 }
 
-export default { getCarts };
+export default { getCarts, getProviders };

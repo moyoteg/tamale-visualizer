@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SearchAppBar() {
+export default function SearchAppBar( props ) {
     const classes = useStyles();
 
     return (
@@ -81,7 +81,7 @@ export default function SearchAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        {LocalizedStrings.cart}s
+                        {props.title ? props.title : ""}
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
