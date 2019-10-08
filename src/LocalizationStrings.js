@@ -19,8 +19,10 @@ const strings = new LocalizedStrings({
         none: "none",
         noName: "no name",
         provider: "provider",
+        providers: "providers",
         users: "users",
         home: "home",
+        settings: "settings"
     },
     es: {
         cart: "carro",
@@ -40,8 +42,10 @@ const strings = new LocalizedStrings({
         none: "ninguno",
         noName: "sin nombre",
         provider: "proveedor",
+        providers: "proveedores",
         users: "usuarios",
         home: "home",
+        settings: "ajustes"
     }
 })
 

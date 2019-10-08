@@ -13,8 +13,8 @@ const firebaseConfig = {
   };
 
 firebase.initializeApp(firebaseConfig)
-let db = firebase.firestore();
-console.log("firestore db: " + db)
+// let db = firebase.firestore();
+// console.log("firestore db: " + db)
 
 async function getCarts() {
     let allCartsSnapshot = await firebase.firestore().collectionGroup('Carts').get()

@@ -212,12 +212,12 @@ export default function CartList() {
                             justifyContent='flex-start'
                             alignItems='center'
                         >
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 22, paddingLeft: 4 }}
                             >
                                 <SearchRoundedIcon style={{marginLeft: 16}} />
                             </Grid>
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 16, paddingLeft: 4 }}
                             >
                                 <TextField
@@ -226,12 +226,12 @@ export default function CartList() {
                                     onChange={handleSearchInputChange}
                                 />
                             </Grid>
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 22, paddingLeft: 4 }}
                             >
                                 <FilterListIcon style={{ marginLeft: 16 }} />
                             </Grid>
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, paddingLeft: 0 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
@@ -244,10 +244,10 @@ export default function CartList() {
                                     filterBy={filter.filterBy}
                                 />
                             </Grid>
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
                             >{showCartsCount()} </Grid>
-                            <Grid item xs={0}
+                            <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
                             >{showFilteredCartsCount()} </Grid>
                         </Grid>
