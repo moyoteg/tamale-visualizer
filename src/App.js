@@ -132,7 +132,7 @@ export default withRouter(function App({ props, location }) {
   const [navBarTitle, setNavBarTitle] = React.useState('no title')
   const [currentPath, setCurrentPath] = useState(location.pathname);
 
-  const mainViews = ['Home',
+  const mainViews = [
   'Providers',
   'Carts']
 
