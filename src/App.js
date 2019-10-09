@@ -148,8 +148,9 @@ export default withRouter(function App({ props, location }) {
 
     return () => {
       //cleanup
+      setNavBarTitle(null)
     }
-  }, [location.pathname]);
+  }, [location.pathname, navBarTitle]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
