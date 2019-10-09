@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, withRouter, Redirect } from "react-rout
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+// import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,14 +15,16 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CartsIcon from '@material-ui/icons/Commute';
 import ProvidersIcon from '@material-ui/icons/SupervisedUserCircle';
 import SettingsIcon from '@material-ui/icons/SettingsApplications';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
 // import LocalizedStrings from 'react-localization';
 
 
@@ -82,6 +84,12 @@ const useStyles = makeStyles(theme => ({
     }),
     marginLeft: 0,
   },
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: 'auto',
+  },
 }));
 
 
@@ -125,16 +133,65 @@ const MainViewPort = () => {
 }
 
 export default withRouter(function App({ props, location }) {
-  // export default function App(props) {
+
   const classes = useStyles();
+
+  // swipable drawer
+  const [state, setState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (side, open) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [side]: open });
+  };
+
+  const sideList = side => (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, false)}
+    >
+      <List>
+        {mainViews
+          .map((text, index) => (
+            <ListItemLink
+              key={text}
+              to={`/${text}`}
+              primary={text}
+              icon={getIconComponent(text)}
+            />
+          ))}
+      </List>
+      <Divider />
+      <List>
+        {secondaryViews
+          .map((text, index) => (
+            <ListItemLink
+              key={text}
+              to={`/${text}`}
+              primary={text}
+              icon={getIconComponent(text)} />
+          ))}
+      </List>
+    </div>
+  );
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [navBarTitle, setNavBarTitle] = React.useState('no title')
   const [currentPath, setCurrentPath] = useState(location.pathname);
 
   const mainViews = [
-  'Providers',
-  'Carts']
+    'Providers',
+    'Carts']
 
   const secondaryViews = ['Settings']
 
@@ -178,19 +235,16 @@ export default withRouter(function App({ props, location }) {
   }
 
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
       <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
+        position="sticky"
       >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={toggleDrawer('left', true)}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
@@ -201,52 +255,16 @@ export default withRouter(function App({ props, location }) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+      <SwipeableDrawer
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+        onOpen={toggleDrawer('left', true)}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {mainViews
-            .map((text, index) => (
-              <ListItemLink
-                key={text}
-                to={`/${text}`}
-                primary={text}
-                icon={getIconComponent(text)}
-              />
-            ))}
-        </List>
-        <Divider />
-        <List>
-          {secondaryViews
-            .map((text, index) => (
-              <ListItemLink
-                key={text}
-                to={`/${text}`}
-                primary={text}
-                icon={getIconComponent(text)} />
-            ))}
-        </List>
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.drawerHeader} />
+        {sideList('left')}
+      </SwipeableDrawer>
+        <main>
           <MainViewPort />
-      </main>
+        </main>
     </div>
   );
 })
