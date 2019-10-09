@@ -11,11 +11,12 @@ import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 // import Icon from '@material-ui/core/Icon';
-import FilterListIcon from '@material-ui/icons/FilterList'
+// import FilterListIcon from '@material-ui/icons/FilterList'
 // import { faHome } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
+// import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
+import { Zoom } from '@material-ui/core'
 
 // import sampleCartData from '../data-samples/carts.json'
 
@@ -79,12 +80,13 @@ export default function CartList() {
 
     const classes = useStyles();
 
+    // TODO: figure out why using an array like this does not give strings
     const filterByOptions =
         [LocalizedStrings.noFilter,
         LocalizedStrings.firstName,
         LocalizedStrings.lastName
         ]
-        
+
     const viewCollectionName = LocalizedStrings.cart
 
     const [carts, setCarts] = useState(null);
@@ -93,7 +95,7 @@ export default function CartList() {
         searchString: null,
         filteredCarts: null
     })
-
+    const [readyToShowList, setReadyToShowList] = useState(false)
     const [showProgress, setShowProgress] = useState(false);
 
     var useMockData = true
@@ -108,6 +110,7 @@ export default function CartList() {
                 .then((carts) => {
                     setCarts(carts)
                     setShowProgress(false)
+                    setReadyToShowList(true)
                     console.log(carts)
                 })
         }
@@ -119,6 +122,7 @@ export default function CartList() {
         // from Faker.js
         setCarts(FakerDataProvider.getCarts(100))
         setShowProgress(false)
+        setReadyToShowList(true)
     }
 
     function updateFilter(
@@ -248,9 +252,11 @@ export default function CartList() {
                         <div>
                             <Grid container spacing={4}>
                                 {cartsToDisplay().map((currentCart, index) => (
-                                    <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-                                        <CartVisualizer cart={currentCart} ></CartVisualizer>
-                                    </Grid>
+                                    <Zoom in={readyToShowList}>
+                                        <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
+                                            <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                        </Grid>
+                                    </Zoom>
                                 ))}
                             </Grid>
                         </div>

@@ -23,7 +23,7 @@ import SettingsIcon from '@material-ui/icons/SettingsApplications';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
-import LocalizedStrings from 'react-localization';
+// import LocalizedStrings from 'react-localization';
 
 
 const drawerWidth = 180;
@@ -244,9 +244,7 @@ export default withRouter(function App({ props, location }) {
         })}
       >
         <div className={classes.drawerHeader} />
-        <Fade>
           <MainViewPort />
-        </Fade>
       </main>
     </div>
   );

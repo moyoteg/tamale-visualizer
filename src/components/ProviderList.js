@@ -16,6 +16,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
+import { Zoom } from '@material-ui/core'
 
 // import sampleProviderData from '../data-samples/providers.json'
 
@@ -91,7 +92,7 @@ export default function ProviderList() {
         searchString: null,
         filteredProviders: null
     })
-
+    const [readyToShowList, setReadyToShowList] = useState(false)
     const [showProgress, setShowProgress] = useState(false);
 
     const useMockData = true
@@ -106,6 +107,7 @@ export default function ProviderList() {
                 .then((providers) => {
                     setProviders(providers)
                     setShowProgress(false)
+                    setReadyToShowList(true)
                     console.log(providers)
                 })
         }
@@ -117,6 +119,7 @@ export default function ProviderList() {
         // from Faker.js
         setProviders(FakerDataProvider.getProviders(100))
         setShowProgress(false)
+        setReadyToShowList(true)
     }
 
     function updateFilter(
@@ -241,9 +244,11 @@ export default function ProviderList() {
                         <div>
                             <Grid container spacing={4}>
                                 {providersToDisplay().map((currentProvider, index) => (
-                                    <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-                                        <ProviderVisualizer provider={currentProvider} ></ProviderVisualizer>
-                                    </Grid>
+                                    <Zoom in={readyToShowList}>
+                                        <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
+                                            <ProviderVisualizer provider={currentProvider} ></ProviderVisualizer>
+                                        </Grid>
+                                    </Zoom>
                                 ))}
                             </Grid>
                         </div>
