@@ -207,12 +207,7 @@ export default function ProviderList() {
                             alignItems='center'
                         >
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 22, paddingLeft: 4 }}
-                            >
-                                <SearchRoundedIcon style={{ marginLeft: 16 }} />
-                            </Grid>
-                            <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 16, paddingLeft: 4 }}
+                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
                             >
                                 <TextField
                                     id="searchInput"
@@ -221,12 +216,7 @@ export default function ProviderList() {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 22, paddingLeft: 4 }}
-                            >
-                                <FilterListIcon style={{ marginLeft: 16 }} />
-                            </Grid>
-                            <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 0 }}>
+                                style={{ padding: 0, paddingLeft: 16 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
                                     classes={{
@@ -238,10 +228,10 @@ export default function ProviderList() {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
                             >{showProvidersCount()} </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 4, paddingBottom: 6 }}
+                                style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
                             >{showFilteredProvidersCount()} </Grid>
                         </Grid>
                     </Paper>
