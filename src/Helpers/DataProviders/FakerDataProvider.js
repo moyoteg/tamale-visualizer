@@ -2,7 +2,7 @@ var faker = require('faker');
 
 faker.locale = "en_US";
 
-async function getProviders() {
+function getProviders() {
 
     let sampleProviders = []
     for (let i = 0; i < 100; i++) {
@@ -17,7 +17,7 @@ async function getProviders() {
     return sampleProviders
 }
 
-async function getCarts(count) {
+function getCarts(count) {
 
     let sampleCarts = []
     for (let i = 0; i < count; i++) {

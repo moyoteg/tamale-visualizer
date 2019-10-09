@@ -149,7 +149,7 @@ export default withRouter(function App({ props, location }) {
     return () => {
       //cleanup
     }
-  });
+  }, [location.pathname]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
