@@ -24,9 +24,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
+import LocalizedStrings from 'react-localization';
 
 // import LocalizedStrings from 'react-localization';
-
 
 const drawerWidth = 180;
 
@@ -102,8 +103,38 @@ function Home() {
 }
 
 function Carts() {
+
+  const filterCollectionByFunction = function(cart, searchString, filterBy) {
+    if (cart && searchString && filterBy) {
+      // filter by:...
+      console.log("filter by: " + filterBy)
+      switch (filterBy) {
+        default:
+          return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
+            cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
+        case "first name":
+          return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase())
+        case "last name":
+          return cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
+      }
+    } else {
+      return true
+    }
+  }
+
+  // TODO: figure out why using an array like this does not give strings
+  const filterByOptions =
+    ["no filter",
+      "first name",
+      "last name"
+    ]
+
   return (
-    <CartList></CartList>
+    <CartList
+      collectionName={LocalizedStrings.Carts}
+      filterCollectionByFunction={filterCollectionByFunction}
+      filterByOptions={filterByOptions}
+    />
   )
 }
 
@@ -132,7 +163,7 @@ const MainViewPort = () => {
   );
 }
 
-export default withRouter(function App({ props, location }) {
+export default withRouter(function App({ props, location, hideLoader }) {
 
   const classes = useStyles();
 
@@ -144,6 +175,34 @@ export default withRouter(function App({ props, location }) {
     right: false,
   });
 
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [navBarTitle, setNavBarTitle] = React.useState('no title')
+  const [currentPath, setCurrentPath] = useState(location.pathname);
+  const [drawerSelection, setDrawerSelection] = useState(null)
+
+  const [showProgress, setShowProgress] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+
+  const mainViews = [
+    'Providers',
+    'Carts']
+
+  const secondaryViews = ['Settings']
+
+  useEffect(() => {
+    setShowProgress(isLoading)
+    const { pathname } = location;
+    console.log('New path:', pathname);
+    let routeName = pathname.replace('/', '')
+    document.title = routeName
+    setNavBarTitle(routeName)
+    return () => {
+      //cleanup
+      // setNavBarTitle(null)
+    }
+  }, [location.pathname, isLoading]);
+
   const toggleDrawer = (side, open) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -151,6 +210,10 @@ export default withRouter(function App({ props, location }) {
 
     setState({ ...state, [side]: open });
   };
+
+  const handleListItemOnCLick = (event, id) => {
+    console.log('selected drawer item: ' + id)
+  }
 
   const sideList = side => (
     <div
@@ -167,7 +230,10 @@ export default withRouter(function App({ props, location }) {
               to={`/${text}`}
               primary={text}
               icon={getIconComponent(text)}
-            />
+              onClick={handleListItemOnCLick}
+              id={text}
+            >
+            </ListItemLink>
           ))}
       </List>
       <Divider />
@@ -183,39 +249,6 @@ export default withRouter(function App({ props, location }) {
       </List>
     </div>
   );
-
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [navBarTitle, setNavBarTitle] = React.useState('no title')
-  const [currentPath, setCurrentPath] = useState(location.pathname);
-
-  const mainViews = [
-    'Providers',
-    'Carts']
-
-  const secondaryViews = ['Settings']
-
-  useEffect(() => {
-
-    const { pathname } = location;
-    console.log('New path:', pathname);
-    let routeName = pathname.replace('/', '')
-    document.title = routeName
-    setNavBarTitle(routeName)
-
-    return () => {
-      //cleanup
-      setNavBarTitle(null)
-    }
-  }, [location.pathname, navBarTitle]);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   const getIconComponent = (text) => {
     switch (text) {
@@ -255,6 +288,7 @@ export default withRouter(function App({ props, location }) {
           </Typography>
         </Toolbar>
       </AppBar>
+      {showProgress && <LinearIndeterminateProgress />}
       <SwipeableDrawer
         open={state.left}
         onClose={toggleDrawer('left', false)}
@@ -262,9 +296,9 @@ export default withRouter(function App({ props, location }) {
       >
         {sideList('left')}
       </SwipeableDrawer>
-        <main>
-          <MainViewPort />
-        </main>
+      <main>
+        <MainViewPort />
+      </main>
     </div>
   );
 })

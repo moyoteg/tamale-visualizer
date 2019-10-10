@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
-import CartVisualizer from './CartVisualizer'
-// import CartFilter from './CartFilter.js'
+import CollectionVisualizer from './CollectionVisualizer'
+// import CollectionFilter from './CollectionFilter.js'
 import FilterSelecDropDown from './FilterSelectDropDown'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import LocalizedStrings from '../LocalizationStrings'
-import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
+import FirebaseDataCollection from '../Helpers/DataCollections/FirebaseDataCollection'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
-import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
-import Icon from '@material-ui/core/Icon';
-// import FilterListIcon from '@material-ui/icons/FilterList'
+import FakerDataCollection from '../Helpers/DataCollections/FakerDataCollection'
+// import Icon from '@material-ui/core/Icon';
+import FilterListIcon from '@material-ui/icons/FilterList'
 // import { faHome } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from '@material-ui/core'
-import Button from '@material-ui/core/Button';
 
-// import sampleCartData from '../data-samples/collection.json'
+// import sampleCollectionData from '../data-samples/collection.json'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -77,53 +76,55 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function CartList(
-    collectionName = 'collection', 
-    filterCollectionByFunction = true, 
-    filterByOptions) {
+export default function CollectionVisualizer( collectionGetter) {
 
     const classes = useStyles();
 
-    const viewCollectionName = collectionName
+    const filterByOptions =
+        [LocalizedStrings.noFilter,
+        ]
 
-    const [collection, setCollection] = useState(null);
+    const viewCollectionName = LocalizedStrings.collection
+
+    const [collection, setCollections] = useState(null);
     const [filter, setFilter] = useState({
-        filterBy: filterByOptions,
+        filterBy: filterByOptions[0],
         searchString: null,
-        filteredCollection: null
+        filteredCollections: null
     })
     const [readyToShowList, setReadyToShowList] = useState(false)
-    const [showProgress, setShowProgress] = useState(false);
+    const [showProgress, setShowProgress] = useState(true);
+    const [isLoading, setIsLoading] = useState(false)
 
-    var useMockData = true
+    const useMockData = true
 
     useEffect(() => {
-        loadCollection()
-    }, [])    
-
-    function loadCollection() {
-        setCollection(null)
-        setShowProgress(true)
+        setShowProgress(isLoading)
         if (useMockData) {
-            // from local json
-            // setProviders(sampleProviderData)
-            // from Faker.js
-            FakerDataProvider.getCarts(100)
-                .then((collection) => {
-                    setCollection(collection)
-                    setShowProgress(false)
-                    setReadyToShowList(true)
-                })
+            loadMockData()
         } else {
-            FirebaseDataProvider
-                .getCollection()
+            FirebaseDataCollection
+                .getCollections()
                 .then((collection) => {
-                    setCollection(collection)
-                    setShowProgress(false)
+                    setCollections(collection)
+                    setIsLoading(false)
                     setReadyToShowList(true)
                     console.log(collection)
                 })
         }
+    }, [isLoading])
+
+    function loadMockData() {
+        setIsLoading(true)
+        // from local json
+        // setCollections(sampleCollectionData)
+        // from Faker.js
+        FakerDataCollection.getCollections(100)
+            .then((collection) => {
+                setCollections(collection)
+                setShowProgress(false)        
+                setReadyToShowList(true)
+            })
     }
 
     function updateFilter(
@@ -133,10 +134,10 @@ export default function CartList(
         if (shouldFilter(searchString)) {
             console.log("will filter by: " + filterBy)
             setFilter({
-                filteredCollection: collection.filter(element => {
-                    let shouldFilter = handlefilterCollectionBy(element, searchString, filterBy)
+                filteredCollections: collection.filter(collection => {
+                    let shouldFilter = filterCollectionsBy(collection, searchString, filterBy)
                     if (shouldFilter) {
-                        console.log("element: " + element)
+                        console.log("collection: " + collection)
                     }
                     return shouldFilter
                 }),
@@ -145,7 +146,7 @@ export default function CartList(
             })
         } else {
             setFilter({
-                filteredCollection: null,
+                filteredCollections: null,
                 searchString: searchString,
                 filterBy: filterBy
             })
@@ -156,9 +157,14 @@ export default function CartList(
         return searchString && searchString.length > 0
     }
 
-    function handlefilterCollectionBy(element, searchString, filterBy) {
-        console.log(element)
-         return filterCollectionByFunction(element, searchString, filterBy)
+    function filterCollectionsBy(collection, searchString, filterBy) {
+        // filter by:...
+        console.log("filter by: " + filterBy)
+        switch (filterBy) {
+            default:
+                return collection.name.toLowerCase().includes(searchString.toLowerCase()) ||
+                    collection.description.toLowerCase().includes(searchString.toLowerCase())
+        }
     }
 
     const handleSearchInputChange = (event) => {
@@ -171,35 +177,31 @@ export default function CartList(
     }
 
     const collectionToDisplay = () => {
-        return (filter.filteredCollection ? filter.filteredCollection : collection)
+        return (filter.filteredCollections ? filter.filteredCollections : collection)
     }
 
-    const showCollectionCount = () => {
+    const showCollectionsCount = () => {
         if (collection) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.cart}s: ${collection.length} `}
+                        {` ${LocalizedStrings.collection}s: ${collection.length} `}
                     </Typography>
                 </Paper>
             )
         }
     }
 
-    const showFilteredCollectionCount = () => {
-        if (filter.filteredCollection) {
+    const showFilteredCollectionsCount = () => {
+        if (filter.filteredCollections) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.filtered}: ${filter.filteredCollection.length} `}
+                        {` ${LocalizedStrings.filtered}: ${filter.filteredCollections.length} `}
                     </Typography>
                 </Paper>
             )
         }
-    }
-
-    const handleRefresh = () => {
-        loadCollection()
     }
 
     return (
@@ -222,19 +224,6 @@ export default function CartList(
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
-                            >
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.button}
-                                    startIcon={<Icon>refresh</Icon>}
-                                    onClick={handleRefresh}
-                                >
-                                    Refresh
-                                </Button>
-                            </Grid>
-                            <Grid item xs="auto"
                                 style={{ padding: 0, paddingLeft: 16 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
@@ -244,15 +233,14 @@ export default function CartList(
                                     }}
                                     handleFilterChange={handleFilterChange}
                                     filterByOptions={filterByOptions}
-                                    filterBy={filter.filterBy}
                                 />
                             </Grid>
                             <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
-                            >{showCollectionCount()} </Grid>
+                            >{showCollectionsCount()} </Grid>
                             <Grid item xs="auto"
                                 style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
-                            >{showFilteredCollectionCount()} </Grid>
+                            >{showFilteredCollectionsCount()} </Grid>
                         </Grid>
                     </Paper>
                 </div>
@@ -260,16 +248,16 @@ export default function CartList(
                     {collectionToDisplay() && collectionToDisplay().length > 0 ? (
                         <div>
                             <Grid container spacing={4}>
-                                {collectionToDisplay().map((currentCart, index) => (
+                                {collectionToDisplay().map((currentCollection, index) => (
                                     <Zoom key={index} in={readyToShowList}>
                                         <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                            <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                            <CollectionVisualizer collection={currentCollection} ></CollectionVisualizer>
                                         </Grid>
                                     </Zoom>
                                 ))}
                             </Grid>
                         </div>
-                    ) : <div style={{ margin: 24 }}>{LocalizedStrings.noCollectionFound}.
+                    ) : <div style={{ margin: 24 }}>{LocalizedStrings.noCollectionsFound}.
                 </div>}
                 </div>
             </div>

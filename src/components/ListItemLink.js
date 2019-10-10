@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 // import Paper from '@material-ui/core/Paper';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
 // import Divider from '@material-ui/core/Divider';
 // import InboxIcon from '@material-ui/icons/Inbox';
 // import DraftsIcon from '@material-ui/icons/Drafts';
@@ -14,7 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function ListItemLink(props) {
-  const { icon, primary, to } = props;
+  const { icon, primary, to, onClick, id } = props;
 
   const renderLink = React.useMemo(
     () =>
@@ -26,13 +27,24 @@ export default function ListItemLink(props) {
     [to],
   );
 
+  const handleOnClick = (event, id) => {
+    onClick(event, id)
+  }
+
   return (
     <li>
-      <ListItem button component={renderLink}>
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
-      </ListItem>
-    </li>
+      <button
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderWidth: 0,
+        }}
+        onClick={(event) => handleOnClick(event, id)}>
+        <ListItem button component={renderLink}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary} />
+        </ListItem>
+      </button>
+    </li >
   );
 }
 

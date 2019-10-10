@@ -1,24 +1,30 @@
 var faker = require('faker');
-
+const timeoutIntervarl = 1000
 faker.locale = "en_US";
 
-function getProviders() {
-
-    let sampleProviders = []
-    for (let i = 0; i < 100; i++) {
-        let sample = {
-            "Carts": getCarts(5),
-            "name": faker.company.companyName(),
-            "description": faker.lorem.sentence(),
-            "logoURL": faker.image.abstract()
-        }
-        sampleProviders.push(sample)
-    }
-    return sampleProviders
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function getCarts(count) {
+async function getProviders(providerCount = 10, cartCount = 5) {
+    await timeout(timeoutIntervarl)
+    let sampleProviders = []
+        for (let i = 0; i < providerCount; i++) {
+            let sample = {
+                "Carts": getCarts(cartCount, false),
+                "name": faker.company.companyName(),
+                "description": faker.lorem.sentence(),
+                "logoURL": faker.image.abstract()
+            }
+            sampleProviders.push(sample)
+        }
+        return await sampleProviders    
+}
 
+async function getCarts(count, shouldAwait) {
+    if (shouldAwait) {
+        await timeout(timeoutIntervarl)
+    }
     let sampleCarts = []
     for (let i = 0; i < count; i++) {
         let sample = {
@@ -53,7 +59,7 @@ function getCarts(count) {
         }
         sampleCarts.push(sample)
     }
-    return sampleCarts
+    return await sampleCarts
 }
 
 export default { getCarts, getProviders };

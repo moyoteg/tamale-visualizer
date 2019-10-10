@@ -11,12 +11,14 @@ import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 // import Icon from '@material-ui/core/Icon';
+import Icon from '@material-ui/core/Icon';
 import FilterListIcon from '@material-ui/icons/FilterList'
 // import { faHome } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from '@material-ui/core'
+import Button from '@material-ui/core/Button';
 
 // import sampleProviderData from '../data-samples/providers.json'
 
@@ -74,6 +76,9 @@ const useStyles = makeStyles(theme => ({
             },
         },
     },
+    button: {
+        margin: theme.spacing(1),
+    },
 }));
 
 export default function ProviderList() {
@@ -98,9 +103,22 @@ export default function ProviderList() {
     const useMockData = true
 
     useEffect(() => {
+        loadProviders()
+    }, [])
+
+    function loadProviders() {
+        setProviders(null)
         setShowProgress(true)
         if (useMockData) {
-            loadMockData()
+            // from local json
+            // setProviders(sampleProviderData)
+            // from Faker.js
+            FakerDataProvider.getProviders(100)
+                .then((providers) => {
+                    setProviders(providers)
+                    setShowProgress(false)
+                    setReadyToShowList(true)
+                })
         } else {
             FirebaseDataProvider
                 .getProviders()
@@ -111,15 +129,6 @@ export default function ProviderList() {
                     console.log(providers)
                 })
         }
-    }, [])
-
-    function loadMockData() {
-        // from local json
-        // setProviders(sampleProviderData)
-        // from Faker.js
-        setProviders(FakerDataProvider.getProviders(100))
-        setShowProgress(false)
-        setReadyToShowList(true)
     }
 
     function updateFilter(
@@ -199,6 +208,10 @@ export default function ProviderList() {
         }
     }
 
+    const handleRefresh = () => {
+        loadProviders()
+    }
+
     return (
         <div>
             {showProgress && <LinearIndeterminateProgress />}
@@ -219,7 +232,20 @@ export default function ProviderList() {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 16 }}>
+                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    startIcon={<Icon>refresh</Icon>}
+                                    onClick={handleRefresh}
+                                >
+                                    Refresh
+                                </Button>
+                            </Grid>
+                            <Grid item xs="auto"
+                                style={{ padding: 0, paddingLeft: 16, paddingLeft: 24}}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
                                     classes={{
@@ -244,8 +270,8 @@ export default function ProviderList() {
                         <div>
                             <Grid container spacing={4}>
                                 {providersToDisplay().map((currentProvider, index) => (
-                                    <Zoom in={readyToShowList}>
-                                        <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
+                                    <Zoom key={index} in={readyToShowList}>
+                                        <Grid item xs={12} sm={6} lg={4} xl={3}>
                                             <ProviderVisualizer provider={currentProvider} ></ProviderVisualizer>
                                         </Grid>
                                     </Zoom>

@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function FilterSelectDropDown({ handleFilterChange, filterByOptions }) {
+export default function FilterSelectDropDown({ handleFilterChange, filterByOptions = [LocalizedStrings.noFilter] }) {
     const classes = useStyles();
 
     return (
