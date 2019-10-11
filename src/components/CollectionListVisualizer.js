@@ -105,16 +105,17 @@ export default function CollectionList(props) {
     const [showProgress, setShowProgress] = useState(false);
 
     useEffect(() => {
-        handleRefresh(true)
+        handleRefresh(useMockData)
         setFilters()
-    }, [getCollectionDataFunction])
+    }, [])
 
     function setFilters() {
 
     }
 
-    function handleGetCollection(useMockData = false) {
+    function handleGetCollection() {
         setShowProgress(true)
+        setCollection(null)
         getCollectionDataFunction(useMockData)
             .then((collection) => {
                 setCollection(collection)
@@ -193,76 +194,74 @@ export default function CollectionList(props) {
         }
     }
 
-    const handleRefresh = (useMockData = false) => {
+    const handleRefresh = () => {
         handleGetCollection(useMockData)
     }
 
     return (
-        <div>
+        <div className={classes.root} >
             {showProgress && <LinearIndeterminateProgress />}
-            <div className={classes.root} >
-                <div>
-                    <Paper style={{ margin: 24, border: 8, padding: 8 }}>
-                        <Grid container spacing={4}
-                            justifyContent='flex-start'
-                            alignItems='center'
+            <div>
+                <Paper style={{ margin: 24, border: 8, padding: 8 }}>
+                    <Grid container spacing={4}
+                        justifyContent='flex-start'
+                        alignItems='center'
+                    >
+                        <Grid item xs="auto"
+                            style={{ padding: 4, marginTop: 16, paddingLeft: 24 }}
                         >
-                            <Grid item xs="auto"
-                                style={{ padding: 4, marginTop: 16, paddingLeft: 24 }}
-                            >
-                                <TextField
-                                    id="searchInput"
-                                    placeholder={`${strings.search} ${viewCollectionName}s`}
-                                    onChange={handleSearchInputChange}
-                                />
-                            </Grid>
-                            <Grid item xs="auto"
-                                style={{ padding: 4, paddingLeft: 16 }}>
-                                <FilterSelecDropDown
-                                    className={classes.dropDown}
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput,
-                                    }}
-                                    handleFilterChange={handleFilterChange}
-                                    filterByOptions={filter.filterByOptions}
-                                    filterBy={filter.filterBy}
-                                />
-                            </Grid>
-                            <Grid item xs="auto"
-                                style={{ padding: 4, marginTop: 8, paddingLeft: 24 }}
-                            >
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.button}
-                                    // startIcon={<Icon>refresh</Icon>}
-                                    onClick={handleRefresh}
-                                >
-                                    refresh
-                                </Button>
-                            </Grid>
-                            {shouldInsertTag(() => { return ` ${strings.cart}s: ${collection.length} ` }, collection)}
-                            {shouldInsertTag(() => { return ` ${strings.filtered}: ${filter.filteredCollection.length} ` }, filter.filteredCollection)}
+                            <TextField
+                                id="searchInput"
+                                placeholder={`${strings.search} ${viewCollectionName}s`}
+                                onChange={handleSearchInputChange}
+                            />
                         </Grid>
-                    </Paper>
-                </div>
-                <div style={{ margin: 24 }} >
-                    {collectionToDisplay() && collectionToDisplay().length > 0 ? (
-                        <div>
-                            <Grid container spacing={4}>
-                                {collectionToDisplay().map((currentCart, index) => (
-                                    <Zoom key={index} in={readyToShowList}>
-                                        <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                            <CartVisualizer cart={currentCart} ></CartVisualizer>
-                                        </Grid>
-                                    </Zoom>
-                                ))}
-                            </Grid>
-                        </div>
-                    ) : <div style={{ margin: 24 }}>{strings.formatString(strings.noItemsFound, viewCollectionName)}.
+                        <Grid item xs="auto"
+                            style={{ padding: 4, paddingLeft: 16 }}>
+                            <FilterSelecDropDown
+                                className={classes.dropDown}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                handleFilterChange={handleFilterChange}
+                                filterByOptions={filter.filterByOptions}
+                                filterBy={filter.filterBy}
+                            />
+                        </Grid>
+                        <Grid item xs="auto"
+                            style={{ padding: 8, marginTop: 8, paddingLeft: 24 }}
+                        >
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}
+                                // startIcon={<Icon>refresh</Icon>}
+                                onClick={handleRefresh}
+                            >
+                                refresh
+                                </Button>
+                        </Grid>
+                        {shouldInsertTag(() => { return ` ${strings.cart}s: ${collection.length} ` }, collection)}
+                        {shouldInsertTag(() => { return ` ${strings.filtered}: ${filter.filteredCollection.length} ` }, filter.filteredCollection)}
+                    </Grid>
+                </Paper>
+            </div>
+            <div style={{ margin: 24 }} >
+                {collectionToDisplay() && collectionToDisplay().length > 0 ? (
+                    <div>
+                        <Grid container spacing={4}>
+                            {collectionToDisplay().map((currentCart, index) => (
+                                <Zoom key={index} in={readyToShowList}>
+                                    <Grid item xs={12} sm={6} lg={4} xl={3}>
+                                        <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                    </Grid>
+                                </Zoom>
+                            ))}
+                        </Grid>
+                    </div>
+                ) : <div style={{ margin: 24 }}>{strings.formatString(strings.noItemsFound, viewCollectionName)}.
                 </div>}
-                </div>
             </div>
         </div>
     )

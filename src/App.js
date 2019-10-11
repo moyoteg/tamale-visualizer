@@ -151,9 +151,9 @@ function CartsViewer() {
       // from local json
       // setProviders(sampleProviderData)
       // from Faker.js
-      return FakerDataProvider.getCarts(100)
+      return await FakerDataProvider.getCarts(100)
     } else {
-      return FirebaseDataProvider.getCarts()
+      return await FirebaseDataProvider.getCarts()
     }
   }
 
@@ -171,6 +171,7 @@ function CartsViewer() {
       filterCollectionByFunction={filterCollectionByFunction}
       filterByOptions={cartsFilterByOptions}
       getCollectionDataFunction={getCollectionDataFunction}
+      useMockData={true}
     />
   )
 }
