@@ -245,7 +245,7 @@ export default function ProviderList() {
                                 </Button>
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 16, paddingLeft: 24}}>
+                                style={{ padding: 0, paddingLeft: 16, paddingLeft: 24 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
                                     classes={{

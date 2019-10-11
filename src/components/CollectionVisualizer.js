@@ -192,6 +192,10 @@ export default function CollectionVisualizer( collectionGetter) {
         }
     }
 
+    const handleRefresh = () => {
+        loadProviders()
+    }
+    
     const showFilteredCollectionsCount = () => {
         if (filter.filteredCollections) {
             return (
@@ -224,7 +228,20 @@ export default function CollectionVisualizer( collectionGetter) {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 16 }}>
+                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    startIcon={<Icon>refresh</Icon>}
+                                    onClick={handleRefresh}
+                                >
+                                    Refresh
+                                </Button>
+                            </Grid>
+                            <Grid item xs="auto"
+                                style={{ padding: 0, paddingLeft: 24 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
                                     classes={{

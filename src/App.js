@@ -1,34 +1,46 @@
-import React, { useState, useEffect } from 'react'
+import React, { 
+  useState, 
+  useEffect 
+} from 'react'
 import './App.css';
-import CartList from './components/CollectionListVisualizer';
-import ProviderList from './components/ProviderList'
-import { BrowserRouter as Router, Route, withRouter, Redirect } from "react-router-dom";
+import { 
+  // BrowserRouter as Router, 
+  Route, 
+  withRouter, 
+  Redirect 
+} from "react-router-dom";
 
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-// import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import { Fade, List } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import CartsIcon from '@material-ui/icons/Commute';
-import ProvidersIcon from '@material-ui/icons/SupervisedUserCircle';
-import SettingsIcon from '@material-ui/icons/SettingsApplications';
-import HomeIcon from '@material-ui/icons/Home';
+import {
+  makeStyles,
+  useTheme
+} from '@material-ui/core/styles';
+import {
+  // Fade, 
+  List,
+  SwipeableDrawer,
+  IconButton,
+  AppBar,
+  Toolbar,
+  CssBaseline,
+  Typography,
+  Divider
+} from '@material-ui/core';
+import {
+  Menu as MenuIcon,
+  Commute as CartsIcon,
+  Home as HomeIcon,
+  SupervisedUserCircle as ProvidersIcon,
+  SettingsApplications as SettingsIcon
+} from '@material-ui/icons';
+import CollectionListVisualizer from './components/CollectionListVisualizer';
+import ProviderList from './components/ProviderList'
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
 import LocalizedStrings from 'react-localization';
 import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
-
 // import LocalizedStrings from 'react-localization';
 
 const drawerWidth = 180;
@@ -95,20 +107,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const MainViewPort = () => {
 
-function Home() {
+  const [loggedIn, setLoggedIn] = React.useState(true)
+
   return (
     <div>
-      Home
-  </div>
-  )
+      <Route exact path="/">
+        {loggedIn ? <Redirect to="/providers" /> : <PublicHomePage />}
+      </Route>
+      <Route path="/carts">
+        <CartsViewer />
+      </Route>
+      <Route path="/providers">
+        <Providers />
+      </Route>
+    </div>
+  );
 }
 
-function CollectionList() {
-  
-}
-
-function Carts() {
+function CartsViewer() {
 
   const filterCollectionByFunction = (cart, searchString, filterBy) => {
     if (cart && searchString && filterBy) {
@@ -148,13 +166,13 @@ function Carts() {
 
   const cartsFilterByOptions =
     [
-    'first name',
-    'last name']
+      'first name',
+      'last name']
 
   const collectionName = LocalizedStrings.Carts
 
   return (
-    <CartList
+    <CollectionListVisualizer
       collectionName={collectionName}
       filterCollectionByFunction={filterCollectionByFunction}
       filterByOptions={cartsFilterByOptions}
@@ -169,28 +187,23 @@ function Providers() {
   )
 }
 
-const MainViewPort = () => {
-
-  const [loggedIn, setLoggedIn] = React.useState(true)
-
-  return (
-    <div>
-      <Route exact path="/">
-        {loggedIn ? <Redirect to="/providers" /> : <PublicHomePage />}
-      </Route>
-      <Route path="/carts">
-        <Carts />
-      </Route>
-      <Route path="/providers">
-        <Providers />
-      </Route>
-    </div>
-  );
-}
-
 export default withRouter(function App({ props, location, hideLoader }) {
 
   const classes = useStyles();
+  const theme = useTheme();
+
+  const [open, setOpen] = React.useState(false);
+  const [navBarTitle, setNavBarTitle] = React.useState('no title')
+  const [currentPath, setCurrentPath] = useState(location.pathname);
+  const [drawerSelection, setDrawerSelection] = useState(null)
+
+  const [showProgress, setShowProgress] = useState(false);
+
+  const mainViews = [
+    'Providers',
+    'Carts']
+
+  const secondaryViews = ['Settings']
 
   // swipable drawer
   const [state, setState] = React.useState({
@@ -200,23 +213,7 @@ export default withRouter(function App({ props, location, hideLoader }) {
     right: false,
   });
 
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [navBarTitle, setNavBarTitle] = React.useState('no title')
-  const [currentPath, setCurrentPath] = useState(location.pathname);
-  const [drawerSelection, setDrawerSelection] = useState(null)
-
-  const [showProgress, setShowProgress] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
-
-  const mainViews = [
-    'Providers',
-    'Carts']
-
-  const secondaryViews = ['Settings']
-
   useEffect(() => {
-    setShowProgress(isLoading)
     const { pathname } = location;
     console.log('New path:', pathname);
     let routeName = pathname.replace('/', '')
@@ -226,7 +223,7 @@ export default withRouter(function App({ props, location, hideLoader }) {
       //cleanup
       // setNavBarTitle(null)
     }
-  }, [location.pathname, isLoading]);
+  }, [location.pathname]);
 
   const toggleDrawer = (side, open) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {

@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
+import {
+    TextField,
+    Zoom, 
+    Button,
+    Paper
+} from '@material-ui/core'
 import CartVisualizer from './CartVisualizer'
-// import CartFilter from './CartFilter.js'
 import FilterSelecDropDown from './FilterSelectDropDown'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import { 
+    fade, 
+    makeStyles 
+} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import LocalizedStrings from '../LocalizationStrings'
-// import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
-import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 import Icon from '@material-ui/core/Icon';
-// import FilterListIcon from '@material-ui/icons/FilterList'
-// import { faHome } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import SearchRoundedIcon from '@material-ui/icons/SearchRounded'
-import Paper from '@material-ui/core/Paper';
-import { Zoom } from '@material-ui/core'
-import Button from '@material-ui/core/Button';
-
+import {
+    // FilterListIcon,
+    // SearchRounded
+} from '@material-ui/icons/FilterList'
+import { 
+    // faHome,
+    // FontAwesomeIcon 
+} from "@fortawesome/free-solid-svg-icons";
 // import sampleCartData from '../data-samples/collection.json'
 
 const useStyles = makeStyles(theme => ({
@@ -86,7 +91,7 @@ export default function CollectionList(props) {
 
     const classes = useStyles();
 
-    const [viewCollectionName, setViewCollectionName] = useState(collectionName)
+    const [viewCollectionName] = useState(collectionName)
 
     const [collection, setCollection] = useState(null);
     const [filter, setFilter] = useState({
@@ -98,12 +103,10 @@ export default function CollectionList(props) {
     const [readyToShowList, setReadyToShowList] = useState(false)
     const [showProgress, setShowProgress] = useState(false);
 
-    var useMockData = true
-
     useEffect(() => {
-        handleGetCollection()
+        getCollectionDataFunction()
         setFilters()
-    }, [])
+    }, [getCollectionDataFunction])
 
     function setFilters() {
 
