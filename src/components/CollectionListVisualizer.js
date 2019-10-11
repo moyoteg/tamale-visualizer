@@ -13,7 +13,7 @@ import {
     makeStyles 
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import LocalizedStrings from '../LocalizationStrings'
+import strings from '../LocalizationStrings'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import Icon from '@material-ui/core/Icon';
 import {
@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function CollectionList(props) {
 
-    const { collectionName = 'collection',
+    const { collectionName = 'item',
         filterCollectionByFunction = true,
         filterByOptions = ["no filter"],
         getCollectionDataFunction } = props
@@ -104,7 +104,7 @@ export default function CollectionList(props) {
     const [showProgress, setShowProgress] = useState(false);
 
     useEffect(() => {
-        getCollectionDataFunction()
+        handleRefresh(true)
         setFilters()
     }, [getCollectionDataFunction])
 
@@ -113,6 +113,7 @@ export default function CollectionList(props) {
     }
 
     function handleGetCollection() {
+        setShowProgress(true)
         getCollectionDataFunction(true)
             .then((collection) => {
                 setCollection(collection)
@@ -179,7 +180,7 @@ export default function CollectionList(props) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.cart}s: ${collection.length} `}
+                        {` ${strings.cart}s: ${collection.length} `}
                     </Typography>
                 </Paper>
             )
@@ -191,15 +192,15 @@ export default function CollectionList(props) {
             return (
                 <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
                     <Typography variant="body1">
-                        {` ${LocalizedStrings.filtered}: ${filter.filteredCollection.length} `}
+                        {` ${strings.filtered}: ${filter.filteredCollection.length} `}
                     </Typography>
                 </Paper>
             )
         }
     }
 
-    const handleRefresh = () => {
-        handleGetCollection()
+    const handleRefresh = (useMockData = false) => {
+        handleGetCollection(useMockData)
     }
 
     return (
@@ -217,7 +218,7 @@ export default function CollectionList(props) {
                             >
                                 <TextField
                                     id="searchInput"
-                                    placeholder={`${LocalizedStrings.search} ${viewCollectionName}s`}
+                                    placeholder={`${strings.search} ${viewCollectionName}s`}
                                     onChange={handleSearchInputChange}
                                 />
                             </Grid>
@@ -228,10 +229,10 @@ export default function CollectionList(props) {
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
-                                    startIcon={<Icon>refresh</Icon>}
+                                    // startIcon={<Icon>refresh</Icon>}
                                     onClick={handleRefresh}
                                 >
-                                    Refresh
+                                    refresh
                                 </Button>
                             </Grid>
                             <Grid item xs="auto"
@@ -269,7 +270,7 @@ export default function CollectionList(props) {
                                 ))}
                             </Grid>
                         </div>
-                    ) : <div style={{ margin: 24 }}>{LocalizedStrings.noCollectionFound}.
+                    ) : <div style={{ margin: 24 }}>{strings.formatString(strings.noItemsFound, viewCollectionName)}.
                 </div>}
                 </div>
             </div>

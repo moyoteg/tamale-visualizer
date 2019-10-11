@@ -38,10 +38,10 @@ import ProviderList from './components/ProviderList'
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-import LocalizedStrings from 'react-localization';
+import strings from './LocalizationStrings';
 import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
-// import LocalizedStrings from 'react-localization';
+// import strings from 'react-localization';
 
 const drawerWidth = 180;
 
@@ -155,21 +155,20 @@ function CartsViewer() {
     } else {
       return FirebaseDataProvider.getCarts()
     }
-
   }
 
   // TODO: figure out why using an array like this does not give strings
   // const cartsFilterByOptions =
-  //   [LocalizedStrings.noFilter,
-  //   LocalizedStrings.firstName,
-  //   LocalizedStrings.lastName]
+  //   [strings.noFilter,
+  //   strings.firstName,
+  //   strings.lastName]
 
   const cartsFilterByOptions =
     [
       'first name',
       'last name']
 
-  const collectionName = LocalizedStrings.Carts
+  const collectionName = strings.Carts
 
   return (
     <CollectionListVisualizer

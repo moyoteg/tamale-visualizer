@@ -1,4 +1,5 @@
-import LocalizedStrings from 'react-localization'
+// import LocalizedStrings from 'react-localization'
+import LocalizedStrings from 'localized-strings';
 
 const strings = new LocalizedStrings({
     en: {
@@ -9,9 +10,12 @@ const strings = new LocalizedStrings({
         lastName: "last name",
         search: "search",
         count: "count",
-        noCartsFound: "no carts found",
-        found: "found",
-        viewCart: "view cart",
+        noItemsFound: "no {0}s $ref{actions.found}",
+        actions: {
+            found: "found",
+            view: "view"
+        },
+        viewCart: "$ref{actions.view} cart",
         noFirstName: "No first name",
         noLastName: "No last name",
         noFilter: "no filter",

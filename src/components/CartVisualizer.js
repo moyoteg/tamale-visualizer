@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 // import Grid from '@material-ui/core/Grid'
 // import Avatar from '@material-ui/core/Avatar'
 // import { makeStyles } from '@material-ui/core/styles';
-import LocalizedStrings from '../LocalizationStrings';
+import strings from '../LocalizationStrings';
 
 // import Image from 'material-ui-image'
 
@@ -57,7 +57,7 @@ export default function CartVisualizer(props) {
             }}
             // className={classes.media}
             image={cart.driver.profilePictureURL ? cart.driver.profilePictureURL : CartLogo}
-            title={cart.driver.firstName ? cart.driver.firstName : LocalizedStrings.noFirstName}
+            title={cart.driver.firstName ? cart.driver.firstName : strings.noFirstName}
           >
             {/* <Image src={CartLogo}/> */}
             {/* <Grid container justify="center" alignItems="center">
@@ -67,7 +67,7 @@ export default function CartVisualizer(props) {
           <CardContent>
             <Typography variant="h5">
               {}
-              {cart.driver.firstName ? cart.driver.firstName : LocalizedStrings.noFirstName} {cart.driver.lastName ? cart.driver.lastName : LocalizedStrings.noLastName}
+              {cart.driver.firstName ? cart.driver.firstName : strings.noFirstName} {cart.driver.lastName ? cart.driver.lastName : strings.noLastName}
             </Typography>
             <Typography variant="body1">
               {cart.description ? cart.description : null}
@@ -75,7 +75,7 @@ export default function CartVisualizer(props) {
           </CardContent>
           <CardActions>
             <Button size="small" color="primary" href={cart.url} target="_blank">
-              {LocalizedStrings.viewCart} 🔗
+              {strings.formatString(strings.viewCart)} 🔗
             </Button>
           </CardActions>
         </Card>
