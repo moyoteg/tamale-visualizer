@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
-import CartList from './components/CartList';
+import CartList from './components/CollectionListVisualizer';
 import ProviderList from './components/ProviderList'
 import { BrowserRouter as Router, Route, withRouter, Redirect } from "react-router-dom";
 
@@ -26,6 +26,8 @@ import PublicHomePage from './components/PublicHomePage'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
 import LocalizedStrings from 'react-localization';
+import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
+import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
 
 // import LocalizedStrings from 'react-localization';
 
@@ -102,9 +104,13 @@ function Home() {
   )
 }
 
+function CollectionList() {
+  
+}
+
 function Carts() {
 
-  const filterCollectionByFunction = function(cart, searchString, filterBy) {
+  const filterCollectionByFunction = (cart, searchString, filterBy) => {
     if (cart && searchString && filterBy) {
       // filter by:...
       console.log("filter by: " + filterBy)
@@ -122,18 +128,37 @@ function Carts() {
     }
   }
 
+  const getCollectionDataFunction = async (useMockData = false) => {
+    if (useMockData) {
+      // from local json
+      // setProviders(sampleProviderData)
+      // from Faker.js
+      return FakerDataProvider.getCarts(100)
+    } else {
+      return FirebaseDataProvider.getCarts()
+    }
+
+  }
+
   // TODO: figure out why using an array like this does not give strings
-  const filterByOptions =
-    ["no filter",
-      "first name",
-      "last name"
-    ]
+  // const cartsFilterByOptions =
+  //   [LocalizedStrings.noFilter,
+  //   LocalizedStrings.firstName,
+  //   LocalizedStrings.lastName]
+
+  const cartsFilterByOptions =
+    [
+    'first name',
+    'last name']
+
+  const collectionName = LocalizedStrings.Carts
 
   return (
     <CartList
-      collectionName={LocalizedStrings.Carts}
+      collectionName={collectionName}
       filterCollectionByFunction={filterCollectionByFunction}
-      filterByOptions={filterByOptions}
+      filterByOptions={cartsFilterByOptions}
+      getCollectionDataFunction={getCollectionDataFunction}
     />
   )
 }

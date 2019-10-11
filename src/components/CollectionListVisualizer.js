@@ -7,7 +7,7 @@ import FilterSelecDropDown from './FilterSelectDropDown'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import LocalizedStrings from '../LocalizationStrings'
-import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
+// import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 import Icon from '@material-ui/core/Icon';
@@ -77,18 +77,21 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function CartList(
-    collectionName = 'collection', 
-    filterCollectionByFunction = true, 
-    filterByOptions) {
+export default function CollectionList(props) {
+
+    const { collectionName = 'collection',
+        filterCollectionByFunction = true,
+        filterByOptions = ["no filter"],
+        getCollectionDataFunction } = props
 
     const classes = useStyles();
 
-    const viewCollectionName = collectionName
+    const [viewCollectionName, setViewCollectionName] = useState(collectionName)
 
     const [collection, setCollection] = useState(null);
     const [filter, setFilter] = useState({
-        filterBy: filterByOptions,
+        filterBy: filterByOptions[0],
+        filterByOptions: filterByOptions,
         searchString: null,
         filteredCollection: null
     })
@@ -98,32 +101,21 @@ export default function CartList(
     var useMockData = true
 
     useEffect(() => {
-        loadCollection()
-    }, [])    
+        handleGetCollection()
+        setFilters()
+    }, [])
 
-    function loadCollection() {
-        setCollection(null)
-        setShowProgress(true)
-        if (useMockData) {
-            // from local json
-            // setProviders(sampleProviderData)
-            // from Faker.js
-            FakerDataProvider.getCarts(100)
-                .then((collection) => {
-                    setCollection(collection)
-                    setShowProgress(false)
-                    setReadyToShowList(true)
-                })
-        } else {
-            FirebaseDataProvider
-                .getCollection()
-                .then((collection) => {
-                    setCollection(collection)
-                    setShowProgress(false)
-                    setReadyToShowList(true)
-                    console.log(collection)
-                })
-        }
+    function setFilters() {
+
+    }
+
+    function handleGetCollection() {
+        getCollectionDataFunction(true)
+            .then((collection) => {
+                setCollection(collection)
+                setShowProgress(false)
+                setReadyToShowList(true)
+            })
     }
 
     function updateFilter(
@@ -158,7 +150,12 @@ export default function CartList(
 
     function handlefilterCollectionBy(element, searchString, filterBy) {
         console.log(element)
-         return filterCollectionByFunction(element, searchString, filterBy)
+        if (filterCollectionByFunction) {
+            return filterCollectionByFunction(element, searchString, filterBy)
+        } else {
+            return filterCollectionByFunction
+        }
+
     }
 
     const handleSearchInputChange = (event) => {
@@ -199,7 +196,7 @@ export default function CartList(
     }
 
     const handleRefresh = () => {
-        loadCollection()
+        handleGetCollection()
     }
 
     return (
@@ -243,7 +240,7 @@ export default function CartList(
                                         input: classes.inputInput,
                                     }}
                                     handleFilterChange={handleFilterChange}
-                                    filterByOptions={filterByOptions}
+                                    filterByOptions={filter.filterByOptions}
                                     filterBy={filter.filterBy}
                                 />
                             </Grid>
