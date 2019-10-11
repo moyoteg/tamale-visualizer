@@ -158,15 +158,10 @@ function CartsViewer() {
   }
 
   // TODO: figure out why using an array like this does not give strings
-  // const cartsFilterByOptions =
-  //   [strings.noFilter,
-  //   strings.firstName,
-  //   strings.lastName]
-
   const cartsFilterByOptions =
-    [
-      'first name',
-      'last name']
+    [strings.noFilter,
+    strings.firstName,
+    strings.lastName]
 
   const collectionName = strings.Carts
 

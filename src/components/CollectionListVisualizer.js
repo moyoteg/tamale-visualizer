@@ -180,7 +180,10 @@ export default function CollectionList(props) {
         if (condition) {
             return (
                 <Grid item xs="auto">
-                    <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
+                    <Paper style={{
+                        display: 'inline-block',
+                        padding: 4,
+                    }}>
                         <Typography variant="body1">
                             {text()}
                         </Typography>
@@ -205,7 +208,7 @@ export default function CollectionList(props) {
                             alignItems='center'
                         >
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
+                                style={{ padding: 4, marginTop: 16, paddingLeft: 24 }}
                             >
                                 <TextField
                                     id="searchInput"
@@ -214,7 +217,7 @@ export default function CollectionList(props) {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 16 }}>
+                                style={{ padding: 4, paddingLeft: 16 }}>
                                 <FilterSelecDropDown
                                     className={classes.dropDown}
                                     classes={{
@@ -227,7 +230,7 @@ export default function CollectionList(props) {
                                 />
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 16, paddingLeft: 24 }}
+                                style={{ padding: 4, marginTop: 8, paddingLeft: 24 }}
                             >
                                 <Button
                                     variant="contained"
@@ -239,8 +242,8 @@ export default function CollectionList(props) {
                                     refresh
                                 </Button>
                             </Grid>
-                            {shouldInsertTag(() => {return ` ${strings.cart}s: ${collection.length} `}, collection)}
-                            {shouldInsertTag(() => {return ` ${strings.filtered}: ${filter.filteredCollection.length} `}, filter.filteredCollection)}
+                            {shouldInsertTag(() => { return ` ${strings.cart}s: ${collection.length} ` }, collection)}
+                            {shouldInsertTag(() => { return ` ${strings.filtered}: ${filter.filteredCollection.length} ` }, filter.filteredCollection)}
                         </Grid>
                     </Paper>
                 </div>
