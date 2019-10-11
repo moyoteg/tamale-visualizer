@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react'
 import Grid from '@material-ui/core/Grid'
 import {
     TextField,
-    Zoom, 
+    Zoom,
     Button,
     Paper
 } from '@material-ui/core'
 import CartVisualizer from './CartVisualizer'
 import FilterSelecDropDown from './FilterSelectDropDown'
-import { 
-    fade, 
-    makeStyles 
+import {
+    fade,
+    makeStyles
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import strings from '../LocalizationStrings'
@@ -20,7 +20,7 @@ import {
     // FilterListIcon,
     // SearchRounded
 } from '@material-ui/icons/FilterList'
-import { 
+import {
     // faHome,
     // FontAwesomeIcon 
 } from "@fortawesome/free-solid-svg-icons";
@@ -87,7 +87,8 @@ export default function CollectionList(props) {
     const { collectionName = 'item',
         filterCollectionByFunction = true,
         filterByOptions = ["no filter"],
-        getCollectionDataFunction } = props
+        getCollectionDataFunction,
+        useMockData = false } = props
 
     const classes = useStyles();
 
@@ -112,9 +113,9 @@ export default function CollectionList(props) {
 
     }
 
-    function handleGetCollection() {
+    function handleGetCollection(useMockData = false) {
         setShowProgress(true)
-        getCollectionDataFunction(true)
+        getCollectionDataFunction(useMockData)
             .then((collection) => {
                 setCollection(collection)
                 setShowProgress(false)
@@ -175,26 +176,16 @@ export default function CollectionList(props) {
         return (filter.filteredCollection ? filter.filteredCollection : collection)
     }
 
-    const showCollectionCount = () => {
-        if (collection) {
+    const shouldInsertTag = (text, condition) => {
+        if (condition) {
             return (
-                <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
-                    <Typography variant="body1">
-                        {` ${strings.cart}s: ${collection.length} `}
-                    </Typography>
-                </Paper>
-            )
-        }
-    }
-
-    const showFilteredCollectionCount = () => {
-        if (filter.filteredCollection) {
-            return (
-                <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
-                    <Typography variant="body1">
-                        {` ${strings.filtered}: ${filter.filteredCollection.length} `}
-                    </Typography>
-                </Paper>
+                <Grid item xs="auto">
+                    <Paper style={{ display: 'inline-block', paddingLeft: 4, paddingRight: 4 }}>
+                        <Typography variant="body1">
+                            {text()}
+                        </Typography>
+                    </Paper>
+                </Grid>
             )
         }
     }
@@ -208,7 +199,7 @@ export default function CollectionList(props) {
             {showProgress && <LinearIndeterminateProgress />}
             <div className={classes.root} >
                 <div>
-                    <Paper style={{ margin: 24, border: 8, padding: 8}}>
+                    <Paper style={{ margin: 24, border: 8, padding: 8 }}>
                         <Grid container spacing={4}
                             justifyContent='flex-start'
                             alignItems='center'
@@ -248,12 +239,8 @@ export default function CollectionList(props) {
                                     refresh
                                 </Button>
                             </Grid>
-                            <Grid item xs="auto"
-                                // style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
-                            >{showCollectionCount()} </Grid>
-                            <Grid item xs="auto"
-                                // style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
-                            >{showFilteredCollectionCount()} </Grid>
+                            {shouldInsertTag(() => {return ` ${strings.cart}s: ${collection.length} `}, collection)}
+                            {shouldInsertTag(() => {return ` ${strings.filtered}: ${filter.filteredCollection.length} `}, filter.filteredCollection)}
                         </Grid>
                     </Paper>
                 </div>
