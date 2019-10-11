@@ -208,7 +208,7 @@ export default function CollectionList(props) {
             {showProgress && <LinearIndeterminateProgress />}
             <div className={classes.root} >
                 <div>
-                    <Paper style={{ margin: 24, border: 8 }}>
+                    <Paper style={{ margin: 24, border: 8, padding: 8}}>
                         <Grid container spacing={4}
                             justifyContent='flex-start'
                             alignItems='center'
@@ -220,6 +220,19 @@ export default function CollectionList(props) {
                                     id="searchInput"
                                     placeholder={`${strings.search} ${viewCollectionName}s`}
                                     onChange={handleSearchInputChange}
+                                />
+                            </Grid>
+                            <Grid item xs="auto"
+                                style={{ padding: 0, paddingLeft: 16 }}>
+                                <FilterSelecDropDown
+                                    className={classes.dropDown}
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                    handleFilterChange={handleFilterChange}
+                                    filterByOptions={filter.filterByOptions}
+                                    filterBy={filter.filterBy}
                                 />
                             </Grid>
                             <Grid item xs="auto"
@@ -236,23 +249,10 @@ export default function CollectionList(props) {
                                 </Button>
                             </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, paddingLeft: 16 }}>
-                                <FilterSelecDropDown
-                                    className={classes.dropDown}
-                                    classes={{
-                                        root: classes.inputRoot,
-                                        input: classes.inputInput,
-                                    }}
-                                    handleFilterChange={handleFilterChange}
-                                    filterByOptions={filter.filterByOptions}
-                                    filterBy={filter.filterBy}
-                                />
-                            </Grid>
-                            <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
+                                // style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
                             >{showCollectionCount()} </Grid>
                             <Grid item xs="auto"
-                                style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
+                                // style={{ padding: 0, marginTop: 18, paddingLeft: 24, paddingRight: 24, paddingBottom: 6 }}
                             >{showFilteredCollectionCount()} </Grid>
                         </Grid>
                     </Paper>
