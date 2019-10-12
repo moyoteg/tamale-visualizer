@@ -12,6 +12,7 @@
     "firebase": "^7.2.0",
     "localized-strings": "^0.2.3",
     "material-design-icons": "^3.0.1",
+    "@material-ui/icons": "^4.4.3",
     "material-ui-image": "^3.2.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -39,7 +40,6 @@
   ],
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
-    "@material-ui/icons": "^4.4.3",
     "regenerator-runtime": "^0.13.3"
   }
 }
