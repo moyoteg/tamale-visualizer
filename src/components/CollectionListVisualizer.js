@@ -4,7 +4,8 @@ import {
     TextField,
     Zoom,
     Button,
-    Paper
+    Paper,
+    Container
 } from '@material-ui/core'
 import CartVisualizer from './CartVisualizer'
 import FilterSelecDropDown from './FilterSelectDropDown'
@@ -15,7 +16,10 @@ import {
 import Typography from '@material-ui/core/Typography'
 import strings from '../LocalizationStrings'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
-import Icon from '@material-ui/core/Icon';
+import {
+    Refresh as RefreshIcon
+} from '@material-ui/icons';
+
 import {
     // FilterListIcon,
     // SearchRounded
@@ -30,6 +34,9 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
+    noItems: {
+        margin: 24
+    },
     menuButton: {
         marginRight: theme.spacing(2),
     },
@@ -41,7 +48,27 @@ const useStyles = makeStyles(theme => ({
         },
     },
     dropDown: {
-
+        // padding: 4, paddingLeft: 16
+    },
+    paperTag: {
+        display: 'inline-block',
+        padding: 4,
+    },
+    paperFilterBar: {
+        margin: 4, border: 4, padding: 4
+    },
+    searchInput: {
+        padding: 4, marginTop: 16, paddingLeft: 8
+    },
+    button: {
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
+        border: theme.spacing(1),
+    },
+    LinearIndeterminateProgress: {
+        margin: theme.spacing,
+        padding: theme.padding,
+        border: theme.padding,
     },
     search: {
         position: 'relative',
@@ -70,16 +97,26 @@ const useStyles = makeStyles(theme => ({
         color: 'inherit',
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: 120,
-            '&:focus': {
-                width: 200,
-            },
-        },
+        // padding: theme.spacing(1, 1, 1, 7),
+        // transition: theme.transitions.create('width'),
+        // width: '100%',
+        // [theme.breakpoints.up('sm')]: {
+        //     width: 120,
+        //     '&:focus': {
+        //         width: 200,
+        //     },
+        // },
+        fullWidth: true
     },
+    collectionView: {
+        margin: 4,
+        padding: 4,
+        border: 4,
+    },
+    tagGrid: {
+        spacing: 1,
+        justify: 'center',
+    }
 }));
 
 export default function CollectionList(props) {
@@ -181,10 +218,7 @@ export default function CollectionList(props) {
         if (condition) {
             return (
                 <Grid item xs="auto">
-                    <Paper style={{
-                        display: 'inline-block',
-                        padding: 4,
-                    }}>
+                    <Paper className={classes.paperTag}>
                         <Typography variant="body1">
                             {text()}
                         </Typography>
@@ -200,24 +234,29 @@ export default function CollectionList(props) {
 
     return (
         <div className={classes.root} >
-            {showProgress && <LinearIndeterminateProgress />}
+            {showProgress && <LinearIndeterminateProgress className={classes.LinearIndeterminateProgress} />}
             <div>
-                <Paper style={{ margin: 24, border: 8, padding: 8 }}>
-                    <Grid container spacing={4}
+                <Paper className={classes.paperFilterBar}>
+                    <Grid container spacing={1}
                         justifyContent='flex-start'
                         alignItems='center'
                     >
-                        <Grid item xs="auto"
-                            style={{ padding: 4, marginTop: 16, paddingLeft: 24 }}
-                        >
+                        <Grid item xs="auto">
                             <TextField
+                                label={strings.search}
+                                style={{ margin: 8 }}
+                                helperText=""
+                                fullWidth
+                                margin="normal"
                                 id="searchInput"
                                 placeholder={`${strings.search} ${viewCollectionName}s`}
                                 onChange={handleSearchInputChange}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
-                        <Grid item xs="auto"
-                            style={{ padding: 4, paddingLeft: 16 }}>
+                        <Grid item xs="auto">
                             <FilterSelecDropDown
                                 className={classes.dropDown}
                                 classes={{
@@ -229,25 +268,30 @@ export default function CollectionList(props) {
                                 filterBy={filter.filterBy}
                             />
                         </Grid>
-                        <Grid item xs="auto"
-                            style={{ padding: 8, marginTop: 8, paddingLeft: 24 }}
-                        >
+                        <Grid item xs="auto">
                             <Button
                                 variant="contained"
                                 color="primary"
                                 className={classes.button}
                                 // startIcon={<Icon>refresh</Icon>}
+                                startIcon={<RefreshIcon />}
                                 onClick={handleRefresh}
-                            >
-                                refresh
+                            >refresh
                                 </Button>
                         </Grid>
+                    </Grid>
+                </Paper>
+                <Container>
+                    <Grid container className={classes.tagGrid}
+                            spacing= {1}
+                            justify= 'center'
+                            >
                         {shouldInsertTag(() => { return ` ${strings.cart}s: ${collection.length} ` }, collection)}
                         {shouldInsertTag(() => { return ` ${strings.filtered}: ${filter.filteredCollection.length} ` }, filter.filteredCollection)}
                     </Grid>
-                </Paper>
+                </Container>
             </div>
-            <div style={{ margin: 24 }} >
+            <div className={classes.collectionView}>
                 {collectionToDisplay() && collectionToDisplay().length > 0 ? (
                     <div>
                         <Grid container spacing={4}>
@@ -260,7 +304,8 @@ export default function CollectionList(props) {
                             ))}
                         </Grid>
                     </div>
-                ) : <div style={{ margin: 24 }}>{strings.formatString(strings.noItemsFound, viewCollectionName)}.
+                ) : <div className={classes.noItems}>
+                        {strings.formatString(strings.noItemsFound, viewCollectionName)}.
                 </div>}
             </div>
         </div>

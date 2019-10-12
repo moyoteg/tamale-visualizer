@@ -10,12 +10,12 @@ const strings = new LocalizedStrings({
         lastName: "last name",
         search: "search",
         count: "count",
-        noItemsFound: "no {0}s $ref{actions.found}",
+        noItemsFound: "no {0}s",
         actions: {
             found: "found",
             view: "view"
         },
-        viewCart: "$ref{actions.view} cart",
+        viewCart: "$ref{actions.view} $ref{cart}",
         noFirstName: "No first name",
         noLastName: "No last name",
         noFilter: "no filter",

@@ -21,7 +21,7 @@ async function getProviders(providerCount = 10, cartCount = 5) {
         return await sampleProviders    
 }
 
-async function getCarts(count, shouldAwait) {
+async function getCarts(count, shouldAwait = true) {
     if (shouldAwait) {
         await timeout(timeoutIntervarl)
     }
