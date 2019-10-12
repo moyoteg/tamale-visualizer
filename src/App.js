@@ -3,10 +3,6 @@ import React, {
   useEffect
 } from 'react'
 import './App.css';
-import withFirebaseAuth from 'react-with-firebase-auth'
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-// import firebaseConfig from './firebaseConfig';
 import {
   withRouter,
 } from "react-router-dom";
@@ -37,9 +33,7 @@ import {
 import MainView from './components/MainView'
 import ListItemLink from './components/ListItemLink'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-// import strings from './Strings'
-import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
-// import strings from 'react-localization';
+import FirebaseAuthProvider from './Helpers/AuthProvider/FirebaseAuthProvider'
 
 const drawerWidth = 180;
 
@@ -106,8 +100,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
-const firebaseApp = FirebaseDataProvider.firebaseInitialized
 
 export default withRouter(function App({ props, location, hideLoader }) {
 
