@@ -1,4 +1,3 @@
-import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import FirebaseDataProvider from '../DataProviders/FirebaseDataProvider'
@@ -9,4 +8,4 @@ const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
 
-export default { firebaseAppAuth };
+export default { firebaseAppAuth, providers };

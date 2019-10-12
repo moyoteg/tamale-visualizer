@@ -34,9 +34,9 @@ import MainView from './components/MainView'
 import ListItemLink from './components/ListItemLink'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
 import FirebaseAuthProvider from './Helpers/AuthProvider/FirebaseAuthProvider'
+import withFirebaseAuth from 'react-with-firebase-auth'
 
 const drawerWidth = 180;
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -99,7 +99,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// const providers = FirebaseAuthProvider.providers
+// const firebaseAppAuth = FirebaseAuthProvider.firebaseAppAuth
 
+// export default withFirebaseAuth({
+//   providers,
+//   firebaseAppAuth,
+// })(App);
 
 export default withRouter(function App({ props, location, hideLoader }) {
 
@@ -116,7 +122,6 @@ export default withRouter(function App({ props, location, hideLoader }) {
   const mainViews = [
     'Providers',
     'Carts']
-
   const secondaryViews = ['Settings']
 
   // swipable drawer
