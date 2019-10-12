@@ -27,7 +27,7 @@ import {
   SupervisedUserCircle as ProvidersIcon,
   SettingsApplications as SettingsIcon
 } from '@material-ui/icons'
-import MainView from './components/MainView'
+import MainView from './views/MainView'
 import ListItemLink from './components/ListItemLink'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
 
