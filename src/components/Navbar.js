@@ -7,7 +7,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import LocalizedStrings from '../Strings';
+import Strings from '../Strings';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -88,7 +88,7 @@ export default function SearchAppBar( props ) {
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder={`${LocalizedStrings.search}...`}
+                            placeholder={`${Strings.search}...`}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,

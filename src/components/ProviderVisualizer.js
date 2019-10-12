@@ -9,7 +9,7 @@ import ProviderLogo from '@material-ui/icons/AccessAlarm'
 // import Grid from '@material-ui/core/Grid'
 // import Avatar from '@material-ui/core/Avatar'
 // import { makeStyles } from '@material-ui/core/styles';
-import LocalizedStrings from '../Strings';
+import strings from '../Strings';
 
 // import Image from 'material-ui-image'
 
@@ -56,7 +56,7 @@ export default function ProviderVisualizer(props) {
             }}
             // className={classes.media}
             image={provider.logoURL ? provider.logoURL : ProviderLogo}
-            title={provider.name ? provider.name : LocalizedStrings.noName}
+            title={provider.name ? provider.name : strings.noName}
           >
             {/* <Image src={ProviderLogo}/> */}
             {/* <Grid container justify="center" alignItems="center">
@@ -66,7 +66,7 @@ export default function ProviderVisualizer(props) {
           <CardContent>
             <Typography variant="h5">
               {}
-              {provider.name ? provider.name : LocalizedStrings.noName}
+              {provider.name ? provider.name : strings.noName}
             </Typography>
             <Typography variant="body1">
               {provider.description ? provider.description : null}
@@ -74,7 +74,7 @@ export default function ProviderVisualizer(props) {
           </CardContent>
           <CardActions>
             <Button size="small" color="primary" href={provider.url} target="_blank">
-              {LocalizedStrings.viewProvider} 🔗
+              {strings.viewProvider} 🔗
             </Button>
           </CardActions>
         </Card>

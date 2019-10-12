@@ -1,6 +1,6 @@
-import LocalizedStrings from 'localized-strings';
+import Strings from 'localized-strings';
 
-const strings = new LocalizedStrings({
+const strings = new Strings({
     en: {
         cart: "cart",
         viewer: "viewer",

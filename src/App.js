@@ -129,7 +129,7 @@ const MainViewPort = () => {
 function CartsViewer() {
 
   const filterCollectionByFunction = (cart, searchString, filterBy) => {
-    if (cart && searchString && filterBy) {
+    if (cart && searchString) {
       // filter by:...
       console.log("filter by: " + filterBy)
       switch (filterBy) {
@@ -182,14 +182,14 @@ function CartsViewer() {
 }
 
 function Providers() {
-  const filterCollectionByFunction = (cart, searchString, filterBy) => {
-    if (cart && searchString && filterBy) {
+  const filterCollectionByFunction = (provider, searchString, filterBy) => {
+    if (provider && searchString) {
       // filter by:...
       console.log("filter by: " + filterBy)
       switch (filterBy) {
         default:
-          return true
-      }
+          return provider.name.toLowerCase().includes(searchString.toLowerCase()) ||
+          provider.description.toLowerCase().includes(searchString.toLowerCase())      }
     } else {
       return true
     }
