@@ -2,11 +2,8 @@ import React, {
   useState,
   useEffect
 } from 'react'
+import PropTypes from "prop-types";
 import './App.css';
-import {
-  withRouter,
-} from "react-router-dom";
-
 import clsx from 'clsx';
 import {
   makeStyles,
@@ -33,8 +30,6 @@ import {
 import MainView from './components/MainView'
 import ListItemLink from './components/ListItemLink'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-import FirebaseAuthProvider from './Helpers/AuthProvider/FirebaseAuthProvider'
-import withFirebaseAuth from 'react-with-firebase-auth'
 
 const drawerWidth = 180;
 const useStyles = makeStyles(theme => ({
@@ -99,15 +94,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// const providers = FirebaseAuthProvider.providers
-// const firebaseAppAuth = FirebaseAuthProvider.firebaseAppAuth
+App.propTypes = {
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
+};
 
-// export default withFirebaseAuth({
-//   providers,
-//   firebaseAppAuth,
-// })(App);
+export default function App(props) {
 
-export default withRouter(function App({ props, location, hideLoader }) {
+  const { 
+    match, 
+    location, 
+    history,
+    user,
+    signOut,
+    signInWithGoogle,
+  } = props
 
   const classes = useStyles();
   const theme = useTheme();
@@ -243,4 +245,4 @@ export default withRouter(function App({ props, location, hideLoader }) {
       </main>
     </div>
   );
-})
+}

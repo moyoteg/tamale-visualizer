@@ -36,4 +36,4 @@ async function getProviders() {
     })
 }
 
-export default { getCarts, getProviders, firebaseInitialized };
+export default { getCarts, getProviders, firebaseInitialized, firebaseConfig };
