@@ -143,11 +143,16 @@ export default function CollectionList(props) {
 
     useEffect(() => {
         handleRefresh(useMockData)
-        setFilters()
+        // setFilters()
     }, [])
 
     function setFilters() {
-
+        setFilter({
+            filterBy: filterByOptions[0],
+            filterByOptions: filterByOptions,
+            searchString: null,
+            filteredCollection: null
+        })
     }
 
     function handleGetCollection() {
@@ -158,6 +163,7 @@ export default function CollectionList(props) {
                 setCollection(collection)
                 setShowProgress(false)
                 setReadyToShowList(true)
+                updateFilter()
             })
     }
 
@@ -258,11 +264,6 @@ export default function CollectionList(props) {
                         </Grid>
                         <Grid item xs="auto">
                             <FilterSelecDropDown
-                                className={classes.dropDown}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
                                 handleFilterChange={handleFilterChange}
                                 filterByOptions={filter.filterByOptions}
                                 filterBy={filter.filterBy}
@@ -272,8 +273,6 @@ export default function CollectionList(props) {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                className={classes.button}
-                                // startIcon={<Icon>refresh</Icon>}
                                 startIcon={<RefreshIcon />}
                                 onClick={handleRefresh}
                             >refresh
@@ -283,9 +282,9 @@ export default function CollectionList(props) {
                 </Paper>
                 <Container>
                     <Grid container className={classes.tagGrid}
-                            spacing= {1}
-                            justify= 'center'
-                            >
+                        spacing={1}
+                        justify='center'
+                    >
                         {shouldInsertTag(() => { return ` ${strings.cart}s: ${collection.length} ` }, collection)}
                         {shouldInsertTag(() => { return ` ${strings.filtered}: ${filter.filteredCollection.length} ` }, filter.filteredCollection)}
                     </Grid>
