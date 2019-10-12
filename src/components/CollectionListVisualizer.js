@@ -14,7 +14,7 @@ import {
     makeStyles
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import strings from '../LocalizationStrings'
+import strings from '../Strings'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import {
     Refresh as RefreshIcon
@@ -123,37 +123,26 @@ export default function CollectionList(props) {
 
     const { collectionName = 'item',
         filterCollectionByFunction = true,
-        filterByOptions = ["no filter"],
+        filterByOptionsProp = null,
         getCollectionDataFunction,
         useMockData = false } = props
 
     const classes = useStyles();
 
     const [viewCollectionName] = useState(collectionName)
-
     const [collection, setCollection] = useState(null);
     const [filter, setFilter] = useState({
-        filterBy: filterByOptions[0],
-        filterByOptions: filterByOptions,
+        filterBy: null,
         searchString: null,
         filteredCollection: null
     })
+    const [filterByOptions] = useState(filterByOptionsProp)
     const [readyToShowList, setReadyToShowList] = useState(false)
     const [showProgress, setShowProgress] = useState(false);
 
     useEffect(() => {
         handleRefresh(useMockData)
-        // setFilters()
     }, [])
-
-    function setFilters() {
-        setFilter({
-            filterBy: filterByOptions[0],
-            filterByOptions: filterByOptions,
-            searchString: null,
-            filteredCollection: null
-        })
-    }
 
     function handleGetCollection() {
         setShowProgress(true)
@@ -261,13 +250,14 @@ export default function CollectionList(props) {
                                 }}
                             />
                         </Grid>
-                        <Grid item xs="auto">
-                            <FilterSelecDropDown
-                                handleFilterChange={handleFilterChange}
-                                filterByOptions={filter.filterByOptions}
-                                filterBy={filter.filterBy}
-                            />
-                        </Grid>
+                        {filterByOptions &&
+                            <Grid item xs="auto">
+                                <FilterSelecDropDown
+                                    handleFilterChange={handleFilterChange}
+                                    filterByOptions={filterByOptions}
+                                    selectedOption={filter.filterBy}
+                                />
+                            </Grid>}
                         <Grid item xs="auto">
                             <Button
                                 style={{ margin: 8 }}
@@ -275,7 +265,7 @@ export default function CollectionList(props) {
                                 color="primary"
                                 startIcon={<RefreshIcon />}
                                 onClick={handleRefresh}
-                            >refresh
+                            >{strings.refresh}
                                 </Button>
                         </Grid>
                     </Grid>

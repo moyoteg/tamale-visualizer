@@ -1,4 +1,3 @@
-// import LocalizedStrings from 'react-localization'
 import LocalizedStrings from 'localized-strings';
 
 const strings = new LocalizedStrings({
@@ -26,7 +25,8 @@ const strings = new LocalizedStrings({
         providers: "providers",
         users: "users",
         home: "home",
-        settings: "settings"
+        settings: "settings",
+        refresh: "refresh",
     },
     es: {
         cart: "carro",
@@ -49,7 +49,8 @@ const strings = new LocalizedStrings({
         providers: "proveedores",
         users: "usuarios",
         home: "home",
-        settings: "ajustes"
+        settings: "ajustes",
+        refresh: "refrescar",
     }
 })
 

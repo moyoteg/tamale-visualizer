@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 // import NativeSelect from '@material-ui/core/NativeSelect';
 import MenuItem from '@material-ui/core/MenuItem';
-import LocalizedStrings from '../LocalizationStrings';
+import strings from '../Strings';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,17 +22,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function FilterSelectDropDown({ handleFilterChange, filterByOptions = [LocalizedStrings.noFilter] }) {
+export default function FilterSelectDropDown(props) {
+    const { handleFilterChange, filterByOptions, selectedOption } = props
     const classes = useStyles();
 
     return (
         <form className={classes.root} autoComplete="off">
             <div className={classes.root}>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="filter-by-simple">{LocalizedStrings.filterBy}</InputLabel>
+                    <InputLabel htmlFor="filter-by-simple">{strings.filterBy}</InputLabel>
                     <Select
                         // native
-                        value={filterByOptions}
+                        value={selectedOption}
                         onChange={handleFilterChange}
                         inputProps={{
                             name: 'filter by',
@@ -40,7 +41,10 @@ export default function FilterSelectDropDown({ handleFilterChange, filterByOptio
                         }}
                     >
                         {filterByOptions.map((filterOption) => (
-                            <MenuItem key={filterOption} value={filterOption}>{filterOption}</MenuItem>
+                            <MenuItem
+                                key={filterOption}
+                                value={filterOption}
+                            >{filterOption}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>

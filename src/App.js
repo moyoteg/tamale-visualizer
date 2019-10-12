@@ -38,7 +38,7 @@ import ProviderList from './components/ProviderList'
 import ListItemLink from './components/ListItemLink'
 import PublicHomePage from './components/PublicHomePage'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-import strings from './LocalizationStrings';
+import strings from './Strings';
 import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
 // import strings from 'react-localization';
@@ -169,7 +169,7 @@ function CartsViewer() {
     <CollectionListVisualizer
       collectionName={collectionName}
       filterCollectionByFunction={filterCollectionByFunction}
-      filterByOptions={cartsFilterByOptions}
+      filterByOptionsProp={cartsFilterByOptions}
       getCollectionDataFunction={getCollectionDataFunction}
       useMockData={true}
     />
