@@ -28,6 +28,7 @@ import {
     // faHome,
     // FontAwesomeIcon 
 } from "@fortawesome/free-solid-svg-icons";
+import { typography } from '@material-ui/system'
 // import sampleCartData from '../data-samples/collection.json'
 
 const useStyles = makeStyles(theme => ({
@@ -125,7 +126,8 @@ export default function CollectionList(props) {
         filterCollectionByFunction = true,
         filterByOptionsProp = null,
         getCollectionDataFunction,
-        useMockData = false } = props
+        useMockData = false,
+        visualizer = (<typography>No visualizer set</typography>) } = props
 
     const classes = useStyles();
 
@@ -266,7 +268,7 @@ export default function CollectionList(props) {
                                 startIcon={<RefreshIcon />}
                                 onClick={handleRefresh}
                             >{strings.refresh}
-                                </Button>
+                            </Button>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -284,10 +286,10 @@ export default function CollectionList(props) {
                 {collectionToDisplay() && collectionToDisplay().length > 0 ? (
                     <div>
                         <Grid container spacing={4}>
-                            {collectionToDisplay().map((currentCart, index) => (
+                            {collectionToDisplay().map((currentItem, index) => (
                                 <Zoom key={index} in={readyToShowList}>
                                     <Grid item xs={12} sm={6} lg={4} xl={3}>
-                                        <CartVisualizer cart={currentCart} ></CartVisualizer>
+                                    {visualizer(currentItem)}
                                     </Grid>
                                 </Zoom>
                             ))}

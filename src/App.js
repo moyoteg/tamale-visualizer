@@ -1,13 +1,13 @@
-import React, { 
-  useState, 
-  useEffect 
+import React, {
+  useState,
+  useEffect
 } from 'react'
 import './App.css';
-import { 
+import {
   // BrowserRouter as Router, 
-  Route, 
-  withRouter, 
-  Redirect 
+  Route,
+  withRouter,
+  Redirect
 } from "react-router-dom";
 
 import clsx from 'clsx';
@@ -34,13 +34,14 @@ import {
   SettingsApplications as SettingsIcon
 } from '@material-ui/icons';
 import CollectionListVisualizer from './components/CollectionListVisualizer';
-import ProviderList from './components/ProviderList'
 import ListItemLink from './components/ListItemLink'
+import CartVisualizer from './components/CartVisualizer'
 import PublicHomePage from './components/PublicHomePage'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
 import strings from './Strings';
 import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
+import ProviderVisualizer from './components/ProviderVisualizer';
 // import strings from 'react-localization';
 
 const drawerWidth = 180;
@@ -165,6 +166,10 @@ function CartsViewer() {
 
   const collectionName = strings.Carts
 
+  const visualizer = (cart) => {
+    return (<CartVisualizer cart={cart} ></CartVisualizer>)
+  }
+
   return (
     <CollectionListVisualizer
       collectionName={collectionName}
@@ -172,13 +177,56 @@ function CartsViewer() {
       filterByOptionsProp={cartsFilterByOptions}
       getCollectionDataFunction={getCollectionDataFunction}
       useMockData={true}
+      visualizer={visualizer}
     />
   )
 }
 
 function Providers() {
+  const filterCollectionByFunction = (cart, searchString, filterBy) => {
+    if (cart && searchString && filterBy) {
+      // filter by:...
+      console.log("filter by: " + filterBy)
+      switch (filterBy) {
+        default:
+          return true
+      }
+    } else {
+      return true
+    }
+  }
+
+  const getCollectionDataFunction = async (useMockData = false) => {
+    if (useMockData) {
+      // from local json
+      // setProviders(sampleProviderData)
+      // from Faker.js
+      return await FakerDataProvider.getProviders(100)
+    } else {
+      return await FirebaseDataProvider.getProviders()
+    }
+  }
+
+  // TODO: figure out why using an array like this does not give strings
+  const filterByOptions =
+    [strings.noFilter,
+    ]
+
+  const collectionName = strings.provider
+
+  const visualizer = (provider) => {
+    return (<ProviderVisualizer provider={provider} ></ProviderVisualizer>)
+  }
+
   return (
-    <ProviderList></ProviderList>
+    <CollectionListVisualizer
+      collectionName={collectionName}
+      filterCollectionByFunction={filterCollectionByFunction}
+      filterByOptionsProp={filterByOptions}
+      getCollectionDataFunction={getCollectionDataFunction}
+      useMockData={true}
+      visualizer={visualizer}
+    />
   )
 }
 
