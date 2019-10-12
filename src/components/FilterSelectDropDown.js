@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 // import FormHelperText from '@material-ui/core/FormHelperText';
@@ -23,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function FilterSelectDropDown(props) {
-    const { handleFilterChange, filterByOptions, selectedOption } = props
+
+    const { handleFilterChange, filterByOptions, selectedOption = strings.noFilter } = props
     const classes = useStyles();
 
     return (
@@ -32,7 +34,7 @@ export default function FilterSelectDropDown(props) {
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="filter-by-simple">{strings.filterBy}</InputLabel>
                     <Select
-                        // native
+                        native
                         value={selectedOption}
                         onChange={handleFilterChange}
                         inputProps={{

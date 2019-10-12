@@ -159,8 +159,7 @@ function CartsViewer() {
 
   // TODO: figure out why using an array like this does not give strings
   const cartsFilterByOptions =
-    [strings.noFilter,
-    strings.firstName,
+    [strings.firstName,
     strings.lastName]
 
   const collectionName = strings.Carts
@@ -207,9 +206,7 @@ function Providers() {
   }
 
   // TODO: figure out why using an array like this does not give strings
-  const filterByOptions =
-    [strings.noFilter,
-    ]
+  const filterByOptions = null
 
   const collectionName = strings.provider
 

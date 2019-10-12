@@ -123,7 +123,7 @@ export default function CollectionListVisualizer(props) {
 
     const { collectionName = 'item',
         filterCollectionByFunction = true,
-        filterByOptionsProp = null,
+        filterByOptionsProp = [],
         getCollectionDataFunction,
         useMockData = false,
         visualizer = (<typography>No visualizer set</typography>) } = props
