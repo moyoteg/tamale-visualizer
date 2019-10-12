@@ -244,8 +244,7 @@ export default function CollectionList(props) {
             <div>
                 <Paper className={classes.paperFilterBar}>
                     <Grid container spacing={1}
-                        justifyContent='flex-start'
-                        alignItems='center'
+                        justify='flex-start'
                     >
                         <Grid item xs="auto">
                             <TextField
@@ -271,6 +270,7 @@ export default function CollectionList(props) {
                         </Grid>
                         <Grid item xs="auto">
                             <Button
+                                style={{ margin: 8 }}
                                 variant="contained"
                                 color="primary"
                                 startIcon={<RefreshIcon />}
