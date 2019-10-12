@@ -10,13 +10,13 @@ const providers = {
 };
 
 // Important
- 
+
 // See authConfig api for all available options
 // Add only the required auth types.
 // Only their related props will be added
 // For ex: signInWithGoogle will be added only when there is google object in authConfig
 // At least an empty object required to enable that method
- 
+
 const authConfig = {
   email: {
     verifyOnSignup: false, // Sends verification email to user upon sign up
@@ -44,4 +44,18 @@ const authConfig = {
     saveUserInDatabase: true
   }
 };
-export default { firebaseAuth, providers, firebaseConfig, authConfig };
+
+const Auth = {
+  isAuthenticated: false,
+  authenticate() {
+    this.isAuthenticated = true;
+  },
+  signout() {
+    this.isAuthenticated = false;
+  },
+  getAuth() {
+    return this.isAuthenticated;
+  }
+};
+
+export default { firebaseAuth, providers, firebaseConfig, authConfig, Auth };
