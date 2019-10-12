@@ -133,9 +133,9 @@ export default function CollectionListVisualizer(props) {
     const [viewCollectionName] = useState(collectionName)
     const [collection, setCollection] = useState(null);
     const [filter, setFilter] = useState({
-        filterBy: null,
-        searchString: null,
-        filteredCollection: null
+        filterBy: '',
+        searchString: 'null',
+        filteredCollection: []
     })
     const [filterByOptions] = useState(filterByOptionsProp)
     const [readyToShowList, setReadyToShowList] = useState(false)
@@ -161,7 +161,7 @@ export default function CollectionListVisualizer(props) {
         searchString = filter.searchString,
         filterBy = filter.filterBy) {
         // filter collection?
-        if (shouldFilter(searchString)) {
+        if (shouldFilter(searchString) && collection) {
             console.log("will filter by: " + filterBy)
             setFilter({
                 filteredCollection: collection.filter(element => {

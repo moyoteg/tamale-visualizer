@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
 
 const MainViewPort = () => {
 
-  const [loggedIn, setLoggedIn] = React.useState(true)
+  const [loggedIn, setLoggedIn] = React.useState(false)
 
   return (
     <div>

@@ -32,15 +32,13 @@ export default function ListItemLink(props) {
   }
 
   return (
-    <li>
-      <ListItem button
-        component={renderLink}
-        onClick={(event) => handleOnClick(event, id)}
-      >
-        {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
-        <ListItemText primary={primary} />
-      </ListItem>
-    </li >
+    <ListItem button
+      component={renderLink}
+      onClick={(event) => handleOnClick(event, id)}
+    >
+      {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+      <ListItemText primary={primary} />
+    </ListItem>
   );
 }
 
