@@ -13,11 +13,11 @@ const firebaseConfig = {
   };
 
 const firebaseInitialized = firebase.initializeApp(firebaseConfig)
-// let db = firebase.firestore();
-// console.log("firestore db: " + db)
+let db = firebase.firestore()
+console.log("firestore db: " + db)
 
 async function getCarts() {
-    let allCartsSnapshot = await firebase.firestore().collectionGroup('Carts').get()
+    let allCartsSnapshot = await db.collectionGroup('Carts').get()
     return allCartsSnapshot.docs.map((doc) => { 
         let data = doc.data()
         // set the id so it can be looked at
@@ -27,7 +27,7 @@ async function getCarts() {
 }
 
 async function getProviders() {
-    let allProvidersSnapshot = await firebase.firestore().collectionGroup('Providers').get()
+    let allProvidersSnapshot = await db.collectionGroup('Providers').get()
     return allProvidersSnapshot.docs.map((doc) => { 
         let data = doc.data()
         // set the id so it can be looked at
@@ -36,4 +36,4 @@ async function getProviders() {
     })
 }
 
-export default { getCarts, getProviders };
+export default { getCarts, getProviders, firebaseInitialized };
