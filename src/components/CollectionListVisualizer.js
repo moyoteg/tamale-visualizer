@@ -7,7 +7,6 @@ import {
     Paper,
     Container
 } from '@material-ui/core'
-import CartVisualizer from './CartVisualizer'
 import FilterSelecDropDown from './FilterSelectDropDown'
 import {
     fade,
@@ -67,9 +66,9 @@ const useStyles = makeStyles(theme => ({
         border: theme.spacing(1),
     },
     LinearIndeterminateProgress: {
-        margin: theme.spacing,
-        padding: theme.padding,
-        border: theme.padding,
+        // margin: theme.spacing,
+        // padding: theme.padding,
+        // border: theme.padding,
     },
     search: {
         position: 'relative',
@@ -120,7 +119,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function CollectionList(props) {
+export default function CollectionListVisualizer(props) {
 
     const { collectionName = 'item',
         filterCollectionByFunction = true,
@@ -144,7 +143,7 @@ export default function CollectionList(props) {
 
     useEffect(() => {
         handleRefresh(useMockData)
-    }, [])
+    }, [useMockData])
 
     function handleGetCollection() {
         setShowProgress(true)
