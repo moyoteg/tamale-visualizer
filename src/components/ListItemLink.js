@@ -27,14 +27,9 @@ export default function ListItemLink(props) {
     [to],
   );
 
-  const handleOnClick = (event, id) => {
-    onClick(event, id)
-  }
-
   return (
     <ListItem button
       component={renderLink}
-      onClick={(event) => handleOnClick(event, id)}
     >
       {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
       <ListItemText primary={primary} />

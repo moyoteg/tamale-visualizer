@@ -3,10 +3,12 @@ import React, {
   useEffect
 } from 'react'
 import './App.css';
+import withFirebaseAuth from 'react-with-firebase-auth'
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+// import firebaseConfig from './firebaseConfig';
 import {
-  Route,
   withRouter,
-  Redirect
 } from "react-router-dom";
 
 import clsx from 'clsx';
@@ -31,16 +33,12 @@ import {
   Home as HomeIcon,
   SupervisedUserCircle as ProvidersIcon,
   SettingsApplications as SettingsIcon
-} from '@material-ui/icons';
-import CollectionListVisualizer from './components/CollectionListVisualizer';
+} from '@material-ui/icons'
+import MainView from './components/MainView'
 import ListItemLink from './components/ListItemLink'
-import CartVisualizer from './components/CartVisualizer'
-import PublicHomePage from './components/PublicHomePage'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-import strings from './Strings';
-import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
+// import strings from './Strings'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
-import ProviderVisualizer from './components/ProviderVisualizer';
 // import strings from 'react-localization';
 
 const drawerWidth = 180;
@@ -107,124 +105,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MainViewPort = () => {
 
-  const [loggedIn, setLoggedIn] = React.useState(false)
 
-  return (
-    <div>
-      <Route exact path="/">
-        {loggedIn ? <Redirect to="/providers" /> : <PublicHomePage />}
-      </Route>
-      <Route path="/carts">
-        <CartsViewer />
-      </Route>
-      <Route path="/providers">
-        <Providers />
-      </Route>
-    </div>
-  );
-}
-
-function CartsViewer() {
-
-  const filterCollectionByFunction = (cart, searchString, filterBy) => {
-    if (cart && searchString) {
-      // filter by:...
-      console.log("filter by: " + filterBy)
-      switch (filterBy) {
-        default:
-          return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase()) ||
-            cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
-        case "first name":
-          return cart.driver.firstName.toLowerCase().includes(searchString.toLowerCase())
-        case "last name":
-          return cart.driver.lastName.toLowerCase().includes(searchString.toLowerCase())
-      }
-    } else {
-      return true
-    }
-  }
-
-  const getCollectionDataFunction = async (useMockData = false) => {
-    if (useMockData) {
-      // from local json
-      // setProviders(sampleProviderData)
-      // from Faker.js
-      return await FakerDataProvider.getCarts(100)
-    } else {
-      return await FirebaseDataProvider.getCarts()
-    }
-  }
-
-  // TODO: figure out why using an array like this does not give strings
-  const cartsFilterByOptions =
-    [strings.firstName,
-    strings.lastName]
-
-  const collectionName = strings.Carts
-
-  const visualizer = (cart) => {
-    return (<CartVisualizer cart={cart} ></CartVisualizer>)
-  }
-
-  return (
-    <CollectionListVisualizer
-      collectionName={collectionName}
-      filterCollectionByFunction={filterCollectionByFunction}
-      filterByOptionsProp={cartsFilterByOptions}
-      getCollectionDataFunction={getCollectionDataFunction}
-      useMockData={true}
-      visualizer={visualizer}
-    />
-  )
-}
-
-function Providers() {
-  const filterCollectionByFunction = (provider, searchString, filterBy) => {
-    if (provider && searchString) {
-      // filter by:...
-      console.log("filter by: " + filterBy)
-      switch (filterBy) {
-        default:
-          return provider.name.toLowerCase().includes(searchString.toLowerCase()) ||
-          provider.description.toLowerCase().includes(searchString.toLowerCase())      }
-    } else {
-      return true
-    }
-  }
-
-  const getCollectionDataFunction = async (useMockData = false) => {
-    if (useMockData) {
-      // from local json
-      // setProviders(sampleProviderData)
-      // from Faker.js
-      return await FakerDataProvider.getProviders(100)
-    } else {
-      return await FirebaseDataProvider.getProviders()
-    }
-  }
-
-  // TODO: figure out why using an array like this does not give strings
-  const filterByOptions = null
-
-  const collectionName = strings.provider
-
-  const visualizer = (provider) => {
-    return (<ProviderVisualizer provider={provider} ></ProviderVisualizer>)
-  }
-
-  return (
-    <CollectionListVisualizer
-      collectionName={collectionName}
-      filterCollectionByFunction={filterCollectionByFunction}
-      filterByOptionsProp={filterByOptions}
-      getCollectionDataFunction={getCollectionDataFunction}
-      useMockData={true}
-      visualizer={visualizer}
-    />
-  )
-}
+const firebaseApp = FirebaseDataProvider.firebaseInitialized
 
 export default withRouter(function App({ props, location, hideLoader }) {
 
@@ -272,8 +155,8 @@ export default withRouter(function App({ props, location, hideLoader }) {
     setState({ ...state, [side]: open });
   };
 
-  const handleListItemOnCLick = (event, id) => {
-    console.log('selected drawer item: ' + id)
+  const handleListItemOnCLick = (event) => {
+    console.log('selected drawer item: ' + event.target.textContent)
   }
 
   const sideList = side => (
@@ -283,7 +166,9 @@ export default withRouter(function App({ props, location, hideLoader }) {
       onClick={toggleDrawer(side, false)}
       onKeyDown={toggleDrawer(side, false)}
     >
-      <List>
+      <List
+        onClick={handleListItemOnCLick}
+      >
         {mainViews
           .map((text, index) => (
             <ListItemLink
@@ -291,7 +176,6 @@ export default withRouter(function App({ props, location, hideLoader }) {
               to={`/${text}`}
               primary={text}
               icon={getIconComponent(text)}
-              onClick={handleListItemOnCLick}
               id={text}
             >
             </ListItemLink>
@@ -358,7 +242,7 @@ export default withRouter(function App({ props, location, hideLoader }) {
         {sideList('left')}
       </SwipeableDrawer>
       <main>
-        <MainViewPort />
+        <MainView />
       </main>
     </div>
   );
