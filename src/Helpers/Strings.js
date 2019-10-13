@@ -13,6 +13,7 @@ const strings = new Strings({
         count: "count",
         noItems: "no {0}s",
         welcome: "$ref{word.welcome}!",
+        authWelcomeDescription: "Login so you can start having a great time visualizing your data and doing whatever you please with it.",
         viewCart: "$ref{word.view} $ref{cart}",
         noFirstName: "No first name",
         noLastName: "No last name",
@@ -40,7 +41,10 @@ const strings = new Strings({
         Settings: "Settings",
         Activity: "Activity",
         Support: "Support",
-
+        Dashboard: "Dashboard",
+        Register: "Register",
+        Login: "Login",
+        Profile: "Profile",
     },
     es: {
         cart: "carro",
@@ -64,6 +68,12 @@ const strings = new Strings({
         home: "home",
         settings: "ajustes",
         refresh: "refrescar",
+        authWelcomeDescription: "Inicie sesión para que pueda comenzar a divertirse visualizando sus datos y haciendo lo que quiera con ellos.",
+        word: {
+            view: "vista",
+            found: "encontrado",
+            welcome: "bienvenido",
+        },
     }
 })
 
