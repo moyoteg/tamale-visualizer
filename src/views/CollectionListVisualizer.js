@@ -13,7 +13,7 @@ import {
     makeStyles
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import strings from '../Strings'
+import strings from '../Helpers/Strings'
 import LinearIndeterminateProgress from '../components/Progress/LinearIndeterminateProgress'
 import {
     Refresh as RefreshIcon
@@ -290,7 +290,7 @@ export default function CollectionListVisualizer(props) {
                         </Grid>
                     </div>
                 ) : <div className={classes.noItems}>
-                        {strings.formatString(strings.noItemsFound, viewCollectionName)}.
+                        {strings.formatString(strings.noItems, viewCollectionName)}.
                 </div>}
             </div>
         </div>

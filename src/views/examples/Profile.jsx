@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 // core components
 import UserHeader from "../../components/Headers/UserHeader.jsx";
+import strings from "../../Helpers/Strings.js";
 
 class Profile extends React.Component {
   render() {
@@ -125,7 +126,7 @@ class Profile extends React.Component {
                         onClick={e => e.preventDefault()}
                         size="sm"
                       >
-                        Settings
+                        {strings.Settings}
                       </Button>
                     </Col>
                   </Row>

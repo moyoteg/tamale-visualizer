@@ -17,6 +17,7 @@ import {
   Container,
   Media
 } from "reactstrap";
+import strings from "../../Helpers/Strings";
 
 class AdminNavbar extends React.Component {
   render() {
@@ -61,7 +62,7 @@ class AdminNavbar extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-arrow" right>
                   <DropdownItem className="noti-title" header tag="div">
-                    <h6 className="text-overflow m-0">Welcome!</h6>
+                    <h6 className="text-overflow m-0">{strings.welcome}</h6>
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-single-02" />
@@ -69,11 +70,11 @@ class AdminNavbar extends React.Component {
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-settings-gear-65" />
-                    <span>Settings</span>
+                    <span>{strings.Settings}</span>
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-calendar-grid-58" />
-                    <span>Activity</span>
+                    <span>{strings.Activity}</span>
                   </DropdownItem>
                   <DropdownItem to="/admin/user-profile" tag={Link}>
                     <i className="ni ni-support-16" />

@@ -4,7 +4,7 @@ import CollectionListVisualizer from './CollectionListVisualizer'
 import CartVisualizer from './CartVisualizer'
 import FakerDataProvider from '../Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from '../Helpers/DataProviders/FirebaseDataProvider'
-import strings from '../Strings'
+import strings from '../Helpers/Strings'
 
 export default function ProvidersViewer() {
 

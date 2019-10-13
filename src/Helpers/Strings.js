@@ -1,5 +1,7 @@
 import Strings from 'localized-strings';
 
+// Strings.setLanguage('es')
+
 const strings = new Strings({
     en: {
         cart: "cart",
@@ -9,12 +11,9 @@ const strings = new Strings({
         lastName: "last name",
         search: "search",
         count: "count",
-        noItemsFound: "no {0}s",
-        actions: {
-            found: "found",
-            view: "view"
-        },
-        viewCart: "$ref{actions.view} $ref{cart}",
+        noItems: "no {0}s",
+        welcome: "$ref{word.welcome}!",
+        viewCart: "$ref{word.view} $ref{cart}",
         noFirstName: "No first name",
         noLastName: "No last name",
         noFilter: "no filter",
@@ -27,6 +26,21 @@ const strings = new Strings({
         home: "home",
         settings: "settings",
         refresh: "refresh",
+        word: {
+            view: "view",
+            found: "found",
+            welcome: "Welcome",
+        },
+        pragCore: "Prag Core",
+        pragCoreURL: "http://www.pragcore.com",
+        aboutUs: "About Us",
+        yearLastUpdated: "2019",
+        Logout: "Logout",
+        MyProfile: "{strings.MyProfile}",
+        Settings: "Settings",
+        Activity: "Activity",
+        Support: "Support",
+
     },
     es: {
         cart: "carro",
@@ -36,9 +50,8 @@ const strings = new Strings({
         lastName: "apellido",
         search: "buscar",
         count: "cuenta",
-        noCartsFound: `ningun carro encontrado`,
-        found: "encontrado",
-        viewCart: "ver carro",
+        noItems: "no {0}s",
+        welcome: "Bienvenido",
         noFirstName: "sin nombre",
         noLastName: "sin apellido",
         noFilter: "sin filtro",
@@ -53,7 +66,5 @@ const strings = new Strings({
         refresh: "refrescar",
     }
 })
-
-// strings.setLanguage('es')
 
 export default strings

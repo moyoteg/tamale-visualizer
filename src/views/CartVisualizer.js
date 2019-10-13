@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 // import Grid from '@material-ui/core/Grid'
 // import Avatar from '@material-ui/core/Avatar'
 // import { makeStyles } from '@material-ui/core/styles';
-import strings from '../Strings';
+import strings from '../Helpers/Strings';
 
 // import Image from 'material-ui-image'
 
