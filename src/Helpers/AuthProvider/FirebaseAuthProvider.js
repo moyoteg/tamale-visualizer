@@ -58,4 +58,10 @@ const Auth = {
   }
 };
 
-export default { firebaseAuth, providers, firebaseConfig, authConfig, Auth };
+export default { 
+  firebaseAuth, 
+  providers, 
+  firebaseConfig, 
+  authConfig, 
+  Auth, 
+  firebaseInitialized };

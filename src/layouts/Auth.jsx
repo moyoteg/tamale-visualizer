@@ -10,6 +10,8 @@ import AuthFooter from "../components/Footers/AuthFooter.jsx";
 import routes from "../Helpers/routes.js";
 import strings from "../Helpers/Strings.js";
 
+import FirebaseAuth from "../Helpers/AuthProvider/FirebaseAuthProvider"
+
 class Auth extends React.Component {
   componentDidMount() {
     document.body.classList.add("bg-default");
@@ -79,4 +81,4 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+export default { Auth }

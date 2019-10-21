@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import firebase from "./firebaseConfig"; // Careful to not import from "firebase"
-import withFirebaseAuth from "react-auth-firebase";
  
 class App extends Component {
   render() {
@@ -61,40 +60,4 @@ class App extends Component {
   }
 }
  
-// Important
- 
-// See authConfig api for all available options
-// Add only the required auth types.
-// Only their related props will be added
-// For ex: signInWithGoogle will be added only when there is google object in authConfig
-// At least an empty object required to enable that method
- 
-const authConfig = {
-  email: {
-    verifyOnSignup: false, // Sends verification email to user upon sign up
-    saveUserInDatabase: true // Saves user in database at /users ref
-  },
-  google: {
-    // redirect: true, // Opens a pop up by default
-    returnAccessToken: true, // Returns an access token as googleAccessToken prop
-    saveUserInDatabase: true // Saves user in database at /users ref
-  },
-  facebook: {
-    // redirect: true, // Opens a pop up by default
-    returnAccessToken: true, // Returns an access token as googleAccessToken prop
-    saveUserInDatabase: true // Saves user in database at /users ref
-  },
-  github: {
-    // redirect: true,
-    returnAccessToken: true,
-    saveUserInDatabase: true
-  },
-  twitter: {
-    // redirect: true,
-    returnAccessToken: true,
-    returnSecret: true,
-    saveUserInDatabase: true
-  }
-};
- 
-export default withFirebaseAuth(App, firebase, authConfig);
+export default App

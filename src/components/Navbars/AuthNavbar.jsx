@@ -13,7 +13,6 @@ import {
   Col
 } from "reactstrap";
 import strings from "../../Helpers/Strings";
-import withFirebaseAuth from "react-auth-firebase";
 
 function AdminNavbar() {
   return (
