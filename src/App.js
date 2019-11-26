@@ -37,7 +37,7 @@ import ListItemLink from './components/ListItemLink'
 import CartVisualizer from './components/CartVisualizer'
 import PublicHomePage from './components/PublicHomePage'
 import LinearIndeterminateProgress from './components/LinearIndeterminateProgress'
-import strings from './Strings';
+import strings from './Helpers/Strings';
 import FakerDataProvider from './Helpers/DataProviders/FakerDataProvider'
 import FirebaseDataProvider from './Helpers/DataProviders/FirebaseDataProvider'
 import ProviderVisualizer from './components/ProviderVisualizer';

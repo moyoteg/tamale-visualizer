@@ -6,7 +6,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 // import NativeSelect from '@material-ui/core/NativeSelect';
 import MenuItem from '@material-ui/core/MenuItem';
-import strings from '../Strings';
+import strings from '../Helpers/Strings';
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -7,6 +7,7 @@ import {
 Router
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import AppRouter from './Helpers/AppRouter'
 
 const history = createBrowserHistory();
 const rootElement = document.getElementById("root");

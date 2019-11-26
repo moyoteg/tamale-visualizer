@@ -13,7 +13,7 @@ import {
     makeStyles
 } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import strings from '../Strings'
+import strings from '../Helpers/Strings'
 import LinearIndeterminateProgress from './LinearIndeterminateProgress'
 import {
     Refresh as RefreshIcon
